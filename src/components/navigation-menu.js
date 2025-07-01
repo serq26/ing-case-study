@@ -1,3 +1,4 @@
+import { localized, msg } from '@lit/localize';
 import { LitElement, html, css } from 'lit';
 
 class NavigationMenu extends LitElement {
@@ -56,7 +57,7 @@ class NavigationMenu extends LitElement {
               width="24"
               height="24"
             />
-            <span>Employees</span>
+            <span>${msg('Employees')}</span>
           </a>
           <a href="/add-employee">
             <img
@@ -65,13 +66,13 @@ class NavigationMenu extends LitElement {
               width="24"
               height="24"
             />
-            <span>Add New</span>
+            <span>${msg('Add New')}</span>
           </a>
-          <locale-picker></locale-picker>
+          <language-picker></language-picker>
         </div>
       </nav>
     `;
   }
 }
 
-customElements.define('navigation-menu', NavigationMenu);
+customElements.define('navigation-menu', localized()(NavigationMenu));

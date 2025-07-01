@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { setLocale, getLocale } from '../localization.js';
 import { updateWhenLocaleChanges, msg } from '@lit/localize';
 
-export class LocalePicker extends LitElement {
+export class LanguagePicker extends LitElement {
   static get properties() {
     return {
       selectedLang: { type: String },
@@ -115,4 +115,4 @@ export class LocalePicker extends LitElement {
     `;
   }
 }
-customElements.define('locale-picker', LocalePicker);
+customElements.define('language-picker', LanguagePicker);

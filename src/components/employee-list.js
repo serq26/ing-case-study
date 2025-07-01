@@ -98,7 +98,6 @@ class EmployeeList extends LitElement {
   render() {
     return html`
       <h2>${msg('Employee List')}</h2>
-      <p>${msg('Hello World!')}</p>
 
       <input
         type="text"

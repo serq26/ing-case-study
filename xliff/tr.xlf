@@ -6,9 +6,21 @@
   <source>Employee List</source>
   <target>Çalışan Listesi</target>
 </trans-unit>
-<trans-unit id="s8c0ec8d1fb9e6e32">
-  <source>Hello World!</source>
-  <target>Merhaba Dünya!</target>
+<trans-unit id="scba00271d50c74f6">
+  <source>Employees</source>
+  <target>Çalışanlar</target>
+</trans-unit>
+<trans-unit id="s4ec58dc6a75753da">
+  <source>Add New</source>
+  <target>Yeni Ekle</target>
+</trans-unit>
+<trans-unit id="s4caed5b7a7e5d89b">
+  <source>English</source>
+  <target>İngilizce</target>
+</trans-unit>
+<trans-unit id="s9d2d00982edafabb">
+  <source>Turkish</source>
+  <target>Türkçe</target>
 </trans-unit>
 </body>
 </file>
