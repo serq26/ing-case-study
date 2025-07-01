@@ -1,46 +1,51 @@
 import { localized, msg } from '@lit/localize';
 import { LitElement, html, css } from 'lit';
+import globalStyles from '../styles/shared-style';
 
 class NavigationMenu extends LitElement {
-  static styles = css`
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      background: #fff;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-    }
-    .logo span {
-      font-weight: bold;
-      font-size: 16px;
-    }
-    .menu {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-    }
-    .menu a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.3rem;
-      font-size: 16px;
-      text-decoration: none;
-      color: #ff6600;
-    }
-    @media (max-width: 768px) {
-        .menu a span {
-          display: none;
+  static get styles() {
+    return [
+      globalStyles,
+      css`
+        nav {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 20px;
+          background: #fff;
         }
-      }
-  `;
+        .logo {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+        }
+        .logo span {
+          font-weight: bold;
+          font-size: 16px;
+        }
+        .menu {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1.5rem;
+        }
+        .menu a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.3rem;
+          font-size: 16px;
+          text-decoration: none;
+        }
+        @media (max-width: 768px) {
+          .menu a span {
+            display: none;
+          }
+        }
+      `,
+    ];
+  }
 
   render() {
     return html`

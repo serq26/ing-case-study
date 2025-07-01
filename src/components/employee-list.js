@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { Router } from '@vaadin/router';
 import { employeeStore } from '../store/employee-store.js';
 import { localized, msg } from '@lit/localize';
+import globalStyles from '../styles/shared-style.js';
 
 class EmployeeList extends LitElement {
   static properties = {
@@ -23,18 +24,26 @@ class EmployeeList extends LitElement {
     this.allSelected = false;
   }
 
-  static styles = css`
-    .actions button {
-      margin-right: 5px;
-    }
-    @media screen and (max-width: 768px) {
-      table,
-      th,
-      td {
-        font-size: 12px;
-      }
-    }
-  `;
+  static get styles() {
+    return [
+      globalStyles,
+      css`
+        h2{
+          color: var(--ing-primary);
+        }
+        .actions button {
+          margin-right: 5px;
+        }
+        @media screen and (max-width: 768px) {
+          table,
+          th,
+          td {
+            font-size: 12px;
+          }
+        }
+      `,
+    ];
+  }
 
   get filteredEmployees() {
     return employeeStore.employees.filter((emp) =>
@@ -97,38 +106,42 @@ class EmployeeList extends LitElement {
 
   render() {
     return html`
-      <h2>${msg('Employee List')}</h2>
-
-      <input
-        type="text"
-        placeholder="Ara..."
-        @input="${(e) => (this.search = e.target.value)}"
-      />
-
-      <div class="actions">
-        <button @click="${() => this.changeView('table')}">Table</button>
-        <button @click="${() => this.changeView('list')}">List</button>
+      <div class="container">
+        <div>
+          <div class="flex-row-between">
+            <h2>${msg('Employee List')}</h2>
+            <div class="flex-row">
+              <input
+                type="text"
+                placeholder="Ara..."
+                @input="${(e) => (this.search = e.target.value)}"
+              />
+              <div class="actions">
+                <button @click="${() => this.changeView('table')}"><img src="/src/assets/icons/table.svg" alt="Table" width=32 height=32 /></button>
+                <button @click="${() => this.changeView('list')}"><img src="/src/assets/icons/list.svg" alt="List" width=32 height=32 /></button>
+              </div>
+            </div>
+          </div>
+          ${this.viewType === 'table' ? this.renderTable() : this.renderList()}
+          ${this.renderPagination()}
+        </div>
       </div>
-
-      ${this.viewType === 'table' ? this.renderTable() : this.renderList()}
-      ${this.renderPagination()}
     `;
   }
 
   renderTable() {
     return html`
-      <table border="1" cellspacing="0" cellpadding="5">
+      <table>
         <thead>
           ${this.selectedEmployees.length > 0
             ? html` <tr>
-                <th colspan="6">
+                <th>
                   <button @click="${this.deleteSelected}">
                     Seçilenleri Sil
                   </button>
                 </th>
               </tr>`
             : ''}
-
           <tr>
             <th>
               <input
@@ -139,7 +152,11 @@ class EmployeeList extends LitElement {
             </th>
             <th>Ad</th>
             <th>Soyad</th>
-            <th>Departman</th>
+            <th>İşe Başlama Tarihi</th>
+            <th>Doğum Tarihi</th>
+            <th>Telefon</th>
+            <th>E-posta</th>
+            <th>Bölüm</th>
             <th>Pozisyon</th>
             <th>İşlem</th>
           </tr>
@@ -157,6 +174,10 @@ class EmployeeList extends LitElement {
                 </td>
                 <td>${emp.firstName}</td>
                 <td>${emp.lastName}</td>
+                <td>${emp.dateOfEmployment}</td>
+                <td>${emp.dateOfBirth}</td>
+                <td>${emp.phone}</td>
+                <td>${emp.email}</td>
                 <td>${emp.department}</td>
                 <td>${emp.position}</td>
                 <td>
@@ -195,9 +216,7 @@ class EmployeeList extends LitElement {
               >
                 Güncelle
               </button>
-              <button @click="${() => this.deleteEmployee(emp.id)}">
-                Sil
-              </button>
+              <button @click="${() => this.deleteEmployee(emp.id)}">Sil</button>
             </li>
           `
         )}
