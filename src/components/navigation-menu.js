@@ -7,7 +7,7 @@ class NavigationMenu extends LitElement {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem;
+      padding: 10px 20px;
       background: #fff;
     }
     .logo {
@@ -35,6 +35,11 @@ class NavigationMenu extends LitElement {
       text-decoration: none;
       color: #ff6600;
     }
+    @media (max-width: 768px) {
+        .menu a span {
+          display: none;
+        }
+      }
   `;
 
   render() {
