@@ -76,7 +76,6 @@ class EmployeeList extends LitElement {
       this.selectedEmployees = this.selectedEmployees.filter((i) => i !== id);
     }
 
-    // tüm satırlar seçili mi kontrol et
     const allIds = this.paginatedEmployees.map((emp) => emp.id);
     this.allSelected = allIds.every((id) =>
       this.selectedEmployees.includes(id)
@@ -88,10 +87,8 @@ class EmployeeList extends LitElement {
     this.allSelected = checked;
 
     if (checked) {
-      // sayfadaki tüm çalışanları seç
       this.selectedEmployees = this.paginatedEmployees.map((emp) => emp.id);
     } else {
-      // seçimleri temizle
       this.selectedEmployees = [];
     }
   }
@@ -113,7 +110,7 @@ class EmployeeList extends LitElement {
             <div class="flex-row">
               <input
                 type="text"
-                placeholder="Ara..."
+                placeholder="${msg('Search...')}"
                 @input="${(e) => (this.search = e.target.value)}"
               />
               <div class="actions">
@@ -150,15 +147,15 @@ class EmployeeList extends LitElement {
                 @change="${this.toggleSelectAll}"
               />
             </th>
-            <th>Ad</th>
-            <th>Soyad</th>
-            <th>İşe Başlama Tarihi</th>
-            <th>Doğum Tarihi</th>
-            <th>Telefon</th>
-            <th>E-posta</th>
-            <th>Bölüm</th>
-            <th>Pozisyon</th>
-            <th>İşlem</th>
+            <th>${msg('First Name')}</th>
+            <th>${msg('Last Name')}</th>
+            <th>${msg('Date of Birth')}</th>
+            <th>${msg('Date of Employment')}</th>
+            <th>${msg('Phone')}</th>
+            <th>${msg('Email')}</th>
+            <th>${msg('Department')}</th>
+            <th>${msg('Position')}</th>
+            <th>${msg('Actions')}</th>
           </tr>
         </thead>
         <tbody>

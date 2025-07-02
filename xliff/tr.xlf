@@ -22,6 +22,62 @@
   <source>Turkish</source>
   <target>Türkçe</target>
 </trans-unit>
+<trans-unit id="s2c57913ffd36d298">
+  <source>First Name</source>
+  <target>İsim</target>
+</trans-unit>
+<trans-unit id="s95a75a2392af5780">
+  <source>Last Name</source>
+  <target>Soyisim</target>
+</trans-unit>
+<trans-unit id="s53802e3f37d072a7">
+  <source>Date of Birth</source>
+  <target>Doğum Tarihi</target>
+</trans-unit>
+<trans-unit id="s772528836550622c">
+  <source>Date of Employment</source>
+  <target>İşe Başlama Tarihi</target>
+</trans-unit>
+<trans-unit id="sf1bc83d2509bafcf">
+  <source>Phone</source>
+  <target>Telefon</target>
+</trans-unit>
+<trans-unit id="sd1f44f1a8bc20e67">
+  <source>Email</source>
+  <target>E-posta</target>
+</trans-unit>
+<trans-unit id="s1e45a4d7635fbda7">
+  <source>Department</source>
+  <target>Bölüm</target>
+</trans-unit>
+<trans-unit id="sc1611c0558728a2a">
+  <source>Position</source>
+  <target>Pozisyon</target>
+</trans-unit>
+<trans-unit id="s8af61807443f32a4">
+  <source>Actions</source>
+  <target>İşlemler</target>
+</trans-unit>
+<trans-unit id="s94ec139e88fa8580">
+  <source><x id="0" equiv-text="${fieldName}"/> is required</source>
+  <target><x id="0" equiv-text="${fieldName}"/> zorunlu alandır</target>
+</trans-unit>
+<trans-unit id="s33f85f24c0f5f008">
+  <source>Save</source>
+  <target>Kaydet</target>
+</trans-unit>
+<trans-unit id="s2ceb11be2290bb1b">
+  <source>Cancel</source>
+  <target>Vazgeç</target>
+</trans-unit>
+<trans-unit id="s0bf5d587a07fcaea">
+  <source>Add New Employee</source>
+  <target>Yeni Çalışan Ekle</target>
+</trans-unit>
+<trans-unit id="h79c40a44a9920372">
+  <source>Edit Employee: <x id="0" equiv-text="&lt;span style=&quot;color:black&quot;&gt;${fullName}&lt;/span&gt;"/></source>
+  <target>Çalışan Güncelleme: <x id="0" equiv-text="&lt;span style=&quot;color:black&quot;&gt;${fullName}&lt;/span&gt;"/></target>
+</trans-unit>
 </body>
 </file>
 </xliff>
