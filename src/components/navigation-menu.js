@@ -50,15 +50,18 @@ class NavigationMenu extends LitElement {
   render() {
     return html`
       <nav>
-        <div class="logo">
-          <img
-            src="/src/assets/icons/ing-logo.svg"
-            alt="ING"
-            width="32"
-            height="32"
-          />
-          <span>ING</span>
-        </div>
+        <a href="/" style="color:black">
+          <div class="logo">
+            <img
+              src="/src/assets/icons/ing-logo.svg"
+              alt="ING"
+              width="32"
+              height="32"
+            />
+            <span>ING</span>
+          </div>
+        </a>
+
         <div class="menu">
           <a href="/employees">
             <img

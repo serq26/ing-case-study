@@ -36,9 +36,6 @@ class EmployeeList extends LitElement {
         h2 {
           color: var(--ing-primary);
         }
-        .actions button {
-          margin-right: 5px;
-        }
         .table-container {
           max-width: 100%;
           overflow-x: scroll;
@@ -123,7 +120,7 @@ class EmployeeList extends LitElement {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
           gap: 24px;
-          padding: 24px 0;
+          padding: 0;
           list-style: none;
           margin: 0;
         }

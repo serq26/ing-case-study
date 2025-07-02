@@ -60,6 +60,7 @@ const sharedStyles = css`
 
   table th {
     color: var(--ing-primary);
+    cursor: pointer;
   }
 
   table td {
