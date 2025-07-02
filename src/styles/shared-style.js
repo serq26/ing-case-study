@@ -41,6 +41,7 @@ const sharedStyles = css`
     border-collapse: collapse;
     border-color: #eee;
     background-color: #fff;
+    border-radius: 0 0 12px 12px;
   }
 
   table tr {
@@ -49,7 +50,7 @@ const sharedStyles = css`
 
   table th,
   table td {
-    padding: 8px;
+    padding: 20px;
     border: none;
     text-align: center;
   }
@@ -60,6 +61,11 @@ const sharedStyles = css`
 
   table td {
     color: var(--text-primary);
+  }
+
+  input[type='checkbox'] {
+    width: 20px;
+    height: 20px;
   }
 
   .container-lg {
