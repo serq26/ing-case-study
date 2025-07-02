@@ -11,6 +11,7 @@ class EmployeeList extends LitElement {
     currentPage: { type: Number },
     viewType: { type: String },
     employeesPerPage: { type: Number },
+    rowsPerPage: { type: Array },
     selectedEmployee: { type: Object },
     selectedEmployees: { type: Array },
     allSelected: { type: Boolean },
@@ -21,7 +22,8 @@ class EmployeeList extends LitElement {
     this.search = '';
     this.currentPage = 1;
     this.viewType = 'table';
-    this.employeesPerPage = 5;
+    this.employeesPerPage = 8;
+    this.rowsPerPage = [5, 10, 20, 50, 100];
     this.selectedEmployee = null;
     this.selectedEmployees = [];
     this.allSelected = false;
@@ -36,6 +38,10 @@ class EmployeeList extends LitElement {
         }
         .actions button {
           margin-right: 5px;
+        }
+        .table-container {
+          max-width: 100%;
+          overflow-x: scroll;
         }
         .table-actions {
           background-color: #ffffff;
@@ -73,6 +79,11 @@ class EmployeeList extends LitElement {
             filter: brightness(0.5);
           }
         }
+        .pagination-container {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
         .pagination {
           display: flex;
           align-items: center;
@@ -80,7 +91,6 @@ class EmployeeList extends LitElement {
           gap: 4px;
           margin: 16px 0;
         }
-
         .page-button,
         .page-number {
           width: 30px;
@@ -93,23 +103,82 @@ class EmployeeList extends LitElement {
           align-items: center;
           justify-content: center;
         }
-
         .page-button:disabled,
         .page-number:disabled {
           opacity: 0.5;
           cursor: not-allowed;
         }
-
         .page-number.active {
           background: var(--ing-primary);
           border-color: var(--ing-primary);
           color: #fff;
           border-radius: 50%;
         }
-
         .page-ellipsis {
           padding: 4px 8px;
           color: #666;
+        }
+
+        .card-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 24px;
+          padding: 24px 0;
+          list-style: none;
+          margin: 0;
+        }
+
+        .card {
+          background: #ffffff;
+          border-radius: 16px;
+          padding: 20px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          transition: transform 0.2s, box-shadow 0.2s;
+          &:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+          }
+        }
+
+        .card strong {
+          font-size: 20px;
+          color: #333;
+        }
+
+        .card span {
+          font-size: 14px;
+          color: #555;
+          line-height: 1.5;
+        }
+
+        .card .flex-row {
+          display: flex;
+          justify-content: flex-end;
+          gap: 8px;
+          margin-top: 12px;
+        }
+
+        .flex-card-content {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          gap: 10px;
+        }
+
+        .flex-card-content-between {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+        }
+
+        .flex-card-content-between strong {
+          font-weight: 600;
+          font-size: 14px;
+          color: var(--ing-primary);
         }
 
         @media screen and (max-width: 768px) {
@@ -117,6 +186,9 @@ class EmployeeList extends LitElement {
           th,
           td {
             font-size: 12px;
+          }
+          .pagination-container {
+            flex-direction: column;
           }
         }
       `,
@@ -179,6 +251,9 @@ class EmployeeList extends LitElement {
 
   changeView(type) {
     this.viewType = type;
+    this.employeesPerPage = type === 'list' ? 8 : 10;
+    this.rowsPerPage =
+      type === 'list' ? [4, 8, 16, 32, 64, 96] : [5, 10, 20, 50, 100];
   }
 
   toggleSelection(e, id) {
@@ -224,12 +299,12 @@ class EmployeeList extends LitElement {
   render() {
     return html`
       <div class="container-lg">
-        <div>
+        <div style="margin:20px 0">
           <div class="flex-row-between">
             <h2>${msg('Employee List')}</h2>
             <div class="flex-row">
               <div class="actions">
-                <button @click="${() => this.changeView('table')}">
+                <button @click="${() => this.changeView('table')}" style="${this.viewType !== 'table' && 'opacity: 0.3'}">
                   <img
                     src="/src/assets/icons/table.svg"
                     alt="Table"
@@ -237,7 +312,7 @@ class EmployeeList extends LitElement {
                     height="32"
                   />
                 </button>
-                <button @click="${() => this.changeView('list')}">
+                <button @click="${() => this.changeView('list')}" style="${this.viewType !== 'list' && 'opacity: 0.3'}">
                   <img
                     src="/src/assets/icons/list.svg"
                     alt="List"
@@ -260,7 +335,12 @@ class EmployeeList extends LitElement {
         ${this.selectedEmployees.length > 0
           ? msg(str`${this.selectedEmployees.length} records will be deleted`)
           : msg(
-              str`Selected employee record of "${this.selectedEmployee?.firstName} ${this.selectedEmployee?.lastName}" will be deleted`
+              html`Selected employee record of
+                <strong
+                  >"${this.selectedEmployee?.firstName}
+                  ${this.selectedEmployee?.lastName}"</strong
+                >
+                will be deleted`
             )}
       </confirm-dialog>
     `;
@@ -291,101 +371,150 @@ class EmployeeList extends LitElement {
         <input
           class="search-box"
           type="text"
+          name="search"
           placeholder="${msg('Search...')}"
           @input="${(e) => (this.search = e.target.value)}"
         />
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <input
-                type="checkbox"
-                .checked="${this.allSelected}"
-                @change="${this.toggleSelectAll}"
-              />
-            </th>
-            <th>${msg('First Name')}</th>
-            <th>${msg('Last Name')}</th>
-            <th>${msg('Date of Birth')}</th>
-            <th>${msg('Date of Employment')}</th>
-            <th>${msg('Phone')}</th>
-            <th>${msg('Email')}</th>
-            <th>${msg('Department')}</th>
-            <th>${msg('Position')}</th>
-            <th>${msg('Actions')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${this.paginatedEmployees.map(
-            (emp) => html`
-              <tr>
-                <td>
-                  <input
-                    type="checkbox"
-                    .checked="${this.selectedEmployees.includes(emp.id)}"
-                    @change="${(e) => this.toggleSelection(e, emp.id)}"
-                  />
-                </td>
-                <td>${emp.firstName}</td>
-                <td>${emp.lastName}</td>
-                <td>${emp.dateOfEmployment}</td>
-                <td>${emp.dateOfBirth}</td>
-                <td>${emp.phone}</td>
-                <td>${emp.email}</td>
-                <td>${emp.department}</td>
-                <td>${emp.position}</td>
-                <td>
-                  <button
-                    class="table-action-button"
-                    @click="${() => Router.go(`/edit-employee/${emp.id}`)}"
-                  >
-                    <img
-                      src="/src/assets/icons/edit.svg"
-                      alt="Edit"
-                      height="20"
-                      width="20"
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                <input
+                  type="checkbox"
+                  .checked="${this.allSelected}"
+                  @change="${this.toggleSelectAll}"
+                />
+              </th>
+              <th>${msg('First Name')}</th>
+              <th>${msg('Last Name')}</th>
+              <th>${msg('Date of Birth')}</th>
+              <th>${msg('Date of Employment')}</th>
+              <th>${msg('Phone')}</th>
+              <th>${msg('Email')}</th>
+              <th>${msg('Department')}</th>
+              <th>${msg('Position')}</th>
+              <th>${msg('Actions')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${this.paginatedEmployees.map(
+              (emp) => html`
+                <tr>
+                  <td>
+                    <input
+                      type="checkbox"
+                      .checked="${this.selectedEmployees.includes(emp.id)}"
+                      @change="${(e) => this.toggleSelection(e, emp.id)}"
                     />
-                  </button>
-                  <button
-                    class="table-action-button"
-                    @click="${() => this.openModal(emp)}"
-                  >
-                    <img
-                      src="/src/assets/icons/delete.svg"
-                      alt="Delete"
-                      height="20"
-                      width="20"
-                    />
-                  </button>
-                </td>
-              </tr>
-            `
-          )}
-        </tbody>
-      </table>
+                  </td>
+                  <td>${emp.firstName}</td>
+                  <td>${emp.lastName}</td>
+                  <td>${emp.dateOfEmployment}</td>
+                  <td>${emp.dateOfBirth}</td>
+                  <td>${emp.phone}</td>
+                  <td>${emp.email}</td>
+                  <td>${emp.department}</td>
+                  <td>${emp.position}</td>
+                  <td>
+                    <button
+                      class="table-action-button"
+                      @click="${() => Router.go(`/edit-employee/${emp.id}`)}"
+                    >
+                      <img
+                        src="/src/assets/icons/edit.svg"
+                        alt="Edit"
+                        height="20"
+                        width="20"
+                      />
+                    </button>
+                    <button
+                      class="table-action-button"
+                      @click="${() => this.openModal(emp)}"
+                    >
+                      <img
+                        src="/src/assets/icons/delete.svg"
+                        alt="Delete"
+                        height="20"
+                        width="20"
+                      />
+                    </button>
+                  </td>
+                </tr>
+              `
+            )}
+          </tbody>
+        </table>
+      </div>
     `;
   }
 
   renderList() {
     return html`
-      <ul>
+      <ul class="card-list">
         ${this.paginatedEmployees.map(
           (emp) => html`
-            <li>
-              <input
-                type="checkbox"
-                .checked="${this.selectedEmployees.includes(emp.id)}"
-                @change="${(e) => this.toggleSelection(e, emp.id)}"
-              />
-              <strong>${emp.firstName} ${emp.lastName}</strong> |
-              ${emp.department} | ${emp.position}
-              <button
-                @click="${() => (location.href = `/edit-employee/${emp.id}`)}"
-              >
-                Güncelle
-              </button>
-              <button @click="${() => this.openModal(emp)}">Sil</button>
+            <li class="card">
+              <strong>${emp.firstName} ${emp.lastName}</strong>
+              <div class="flex-card-content">
+                <img
+                  src="/src/assets/icons/email.svg"
+                  alt="Email"
+                  height="20"
+                  width="20"
+                />
+                <span>${emp.email}</span>
+              </div>
+              <div class="flex-card-content">
+                <img
+                  src="/src/assets/icons/phone.svg"
+                  alt="Phone"
+                  height="20"
+                  width="20"
+                />
+                <span>${emp.phone}</span>
+              </div>
+              <div class="flex-card-content-between">
+                <strong>${msg('Date of Birth')}:</strong>
+                <span>${emp.dateOfBirth}</span>
+              </div>
+              <div class="flex-card-content-between">
+                <strong>${msg('Date of Employment')}:</strong>
+                <span>${emp.dateOfEmployment}</span>
+              </div>
+              <div class="flex-card-content-between">
+                <strong>${msg('Department')}:</strong>
+                <span>${emp.department}</span>
+              </div>
+              <div class="flex-card-content-between">
+                <strong>${msg('Position')}:</strong>
+                <span>${emp.position}</span>
+              </div>
+              <div class="flex-row">
+                <button
+                  class="table-action-button"
+                  @click="${() => Router.go(`/edit-employee/${emp.id}`)}"
+                >
+                  <img
+                    src="/src/assets/icons/edit.svg"
+                    alt="Edit"
+                    height="20"
+                    width="20"
+                  />
+                </button>
+                <button
+                  class="table-action-button"
+                  @click="${() => this.openModal(emp)}"
+                >
+                  <img
+                    src="/src/assets/icons/delete.svg"
+                    alt="Delete"
+                    height="20"
+                    width="20"
+                  />
+                </button>
+              </div>
             </li>
           `
         )}
@@ -405,7 +534,7 @@ class EmployeeList extends LitElement {
     );
 
     return html`
-      <div class="flex-row-between">
+      <div class="pagination-container">
         <div style="width: 200px"></div>
         <div class="pagination">
           <button
@@ -478,9 +607,13 @@ class EmployeeList extends LitElement {
           </button>
         </div>
         <div class="per-page-selector" style="width: 200px">
-          <label for="per-page">Rows per page:</label>
+          <label for="per-page"
+            >${msg(
+              str`${this.viewType === 'table' ? 'Rows' : 'Cards'} per page`
+            )}:</label
+          >
           <select id="per-page" @change="${this.handlePerPageChange}">
-            ${[5, 10, 20, 50, 100].map(
+            ${this.rowsPerPage.map(
               (size) => html`
                 <option
                   value="${size}"

@@ -134,6 +134,9 @@ const sharedStyles = css`
     td {
       font-size: 12px;
     }
+    .container-lg {
+      padding: 20px;
+    }
   }
 `;
 
