@@ -4,7 +4,10 @@ const sharedStyles = css`
   :root {
     --ing-primary: #ff6600;
     --ing-secondary: #091c5a;
+    --ing-purple: #4b468c;
+    --ing-dark-blue: rgb(24, 31, 84);
     --text-primary: #424242;
+    --grey-bg: #f7f7f7;
     --xs-breakpoint: 600px;
     --md-breakpoint: 1024px;
     --lg-breakpoint: 1440px;
@@ -94,7 +97,35 @@ const sharedStyles = css`
   .flex-row-between {
     display: flex;
     align-items: center;
-    justify-content: space-between
+    justify-content: space-between;
+  }
+
+  button[type='submit'] {
+    min-height: 48px;
+    color: white;
+    background-color: var(--ing-primary);
+    font-size: 16px;
+    border-radius: 8px;
+    border: 0;
+    transition: background-color 0.3s ease;
+    &:hover {
+      cursor: pointer;
+      background-color: var(--ing-secondary);
+    }
+  }
+
+  button.cancel {
+    min-height: 48px;
+    font-size: 16px;
+    color: var(--ing-purple);
+    border: 2px solid var(--ing-purple);
+    border-radius: 8px;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+    &:hover {
+      cursor: pointer;
+      background-color: var(--grey-bg);
+    }
   }
 
   @media screen and (max-width: 768px) {

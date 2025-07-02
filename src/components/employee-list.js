@@ -3,6 +3,7 @@ import { Router } from '@vaadin/router';
 import { employeeStore } from '../store/employee-store.js';
 import { localized, msg, str } from '@lit/localize';
 import sharedStyles from '../styles/shared-style.js';
+import '../components/confirm-dialog.js';
 
 class EmployeeList extends LitElement {
   static properties = {
@@ -10,6 +11,7 @@ class EmployeeList extends LitElement {
     currentPage: { type: Number },
     viewType: { type: String },
     employeesPerPage: { type: Number },
+    selectedEmployee: { type: Object },
     selectedEmployees: { type: Array },
     allSelected: { type: Boolean },
   };
@@ -20,6 +22,7 @@ class EmployeeList extends LitElement {
     this.currentPage = 1;
     this.viewType = 'table';
     this.employeesPerPage = 5;
+    this.selectedEmployee = null;
     this.selectedEmployees = [];
     this.allSelected = false;
   }
@@ -65,7 +68,7 @@ class EmployeeList extends LitElement {
           border: none;
           outline: none;
           background-color: transparent;
-          transition: all .2s ease;
+          transition: all 0.2s ease;
           &:hover {
             filter: brightness(0.5);
           }
@@ -210,6 +213,14 @@ class EmployeeList extends LitElement {
     }
   }
 
+  openModal(employee) {
+    this.selectedEmployee = employee;
+  }
+
+  handleModalClosed() {
+    this.selectedEmployee = null;
+  }
+
   render() {
     return html`
       <div class="container-lg">
@@ -241,6 +252,17 @@ class EmployeeList extends LitElement {
           ${this.renderPagination()}
         </div>
       </div>
+      <confirm-dialog
+        .isOpen=${!!this.selectedEmployee}
+        .employee=${this.selectedEmployee}
+        @close=${this.handleModalClosed}
+      >
+        ${this.selectedEmployees.length > 0
+          ? msg(str`${this.selectedEmployees.length} records will be deleted`)
+          : msg(
+              str`Selected employee record of "${this.selectedEmployee?.firstName} ${this.selectedEmployee?.lastName}" will be deleted`
+            )}
+      </confirm-dialog>
     `;
   }
 
@@ -256,7 +278,10 @@ class EmployeeList extends LitElement {
                       str`${this.selectedEmployees.length} rows selected`
                     )}</span
                   >
-                  <button class="delete-button" @click="${this.deleteSelected}">
+                  <button
+                    class="delete-button"
+                    @click="${() => this.openModal(this.selectedEmployees)}"
+                  >
                     ${msg('Delete')}
                   </button>
                 </th>
@@ -324,7 +349,7 @@ class EmployeeList extends LitElement {
                   </button>
                   <button
                     class="table-action-button"
-                    @click="${() => this.deleteEmployee(emp.id)}"
+                    @click="${() => this.openModal(emp)}"
                   >
                     <img
                       src="/src/assets/icons/delete.svg"
@@ -360,7 +385,7 @@ class EmployeeList extends LitElement {
               >
                 Güncelle
               </button>
-              <button @click="${() => this.deleteEmployee(emp.id)}">Sil</button>
+              <button @click="${() => this.openModal(emp)}">Sil</button>
             </li>
           `
         )}

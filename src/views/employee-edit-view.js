@@ -1,8 +1,8 @@
 import { LitElement, html, css } from 'lit';
 import { employeeStore } from '../store/employee-store';
-import '../components/employee-form';
 import { updateWhenLocaleChanges, msg } from '@lit/localize';
 import sharedStyles from '../styles/shared-style';
+import '../components/employee-form';
 
 class EmployeeEditView extends LitElement {
   static properties = {
@@ -46,7 +46,11 @@ class EmployeeEditView extends LitElement {
     return html`
       <div class="container-md">
         <div>
-          <h2>${msg(html`Edit Employee: <span style="color:black">${fullName}</span>`)}</h2>
+          <h2>
+            ${msg(
+              html`Edit Employee: <span style="color:black">${fullName}</span>`
+            )}
+          </h2>
         </div>
         <employee-form .employee="${this.employee}"></employee-form>
       </div>

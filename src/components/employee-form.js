@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { employeeStore } from '../store/employee-store.js';
-import { msg, updateWhenLocaleChanges } from '@lit/localize';
+import { msg, updateWhenLocaleChanges, str } from '@lit/localize';
 import sharedStyles from '../styles/shared-style';
 import { Router } from '@vaadin/router';
 import {
@@ -12,11 +12,13 @@ import {
   isValidPhone,
 } from '../lib/validation.js';
 import { formatPhone } from '../lib/utils.js';
+import '../components/confirm-dialog';
 
 class EmployeeForm extends LitElement {
   static properties = {
     employee: { type: Object },
     errors: { type: Object },
+    _pendingFormData: { type: Object },
   };
 
   constructor() {
@@ -33,6 +35,7 @@ class EmployeeForm extends LitElement {
       position: '',
     };
     this.errors = {};
+    this._pendingFormData = null;
   }
 
   static get styles() {
@@ -107,20 +110,15 @@ class EmployeeForm extends LitElement {
             width: 100%;
           }
         }
-
         .error {
           color: red;
           padding: 8px 0;
           font-size: 12px;
         }
-
-        .turnBack-btn {
-          margin: 10px auto;
-          display: block;
+        .turn-back {
           width: 30%;
-          padding: 10px;
-          border-radius: 10px;
-          font-weight: bold;
+          display: block;
+          margin: 10px auto;
         }
       `,
     ];
@@ -129,9 +127,9 @@ class EmployeeForm extends LitElement {
   validateField(name, value) {
     switch (name) {
       case 'firstName':
-        return isValidName(value, msg("First Name"));
+        return isValidName(value, msg('First Name'));
       case 'lastName':
-        return isValidName(value, msg("Last Name"));
+        return isValidName(value, msg('Last Name'));
       case 'email':
         return isValidEmail(value);
       case 'phone':
@@ -183,6 +181,18 @@ class EmployeeForm extends LitElement {
     return Object.keys(errors).length === 0;
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    this.addEventListener('confirm', () => this.handleConfirm());
+  }
+
+  handleConfirm() {
+    const data = this._pendingFormData;
+    data.id = this.employee.id;
+    employeeStore.update(data);
+    Router.go('/employees');
+  }
+
   handleSubmit(e) {
     e.preventDefault();
 
@@ -190,12 +200,10 @@ class EmployeeForm extends LitElement {
 
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
+    this._pendingFormData = data;
 
     if (this.employee.id) {
-      data.id = this.employee.id;
-      if (confirm('Kaydı güncellemek istediğinize emin misiniz?')) {
-        employeeStore.update(data);
-      }
+      this.shadowRoot.querySelector('confirm-dialog').isOpen = true;
     } else {
       data.id = Date.now();
       employeeStore.add(data);
@@ -320,10 +328,10 @@ class EmployeeForm extends LitElement {
               value="Analytics"
               ?selected="${emp.department === 'Analytics'}"
             >
-            Analytics
+              Analytics
             </option>
             <option value="Tech" ?selected="${emp.department === 'Tech'}">
-            Tech
+              Tech
             </option>
           </select>
           ${this.errors.department &&
@@ -340,13 +348,13 @@ class EmployeeForm extends LitElement {
               Select Position
             </option>
             <option value="Junior" ?selected="${emp.position === 'Junior'}">
-            Junior
+              Junior
             </option>
             <option value="Medior" ?selected="${emp.position === 'Medior'}">
-            Medior
+              Medior
             </option>
             <option value="Senior" ?selected="${emp.position === 'Senior'}">
-            Senior
+              Senior
             </option>
           </select>
           ${this.errors.position &&
@@ -357,11 +365,16 @@ class EmployeeForm extends LitElement {
       <button
         type="button"
         title="Turn Back"
-        class="turnBack-btn"
+        class="cancel turn-back"
         @click=${() => Router.go('/employees')}
       >
         ${msg('Cancel')}
       </button>
+      <confirm-dialog .employee=${this.employee} @confirm=${this.handleConfirm}>
+        ${msg(
+          str`Employee record of "${emp.firstName} ${emp.lastName}" will be updated`
+        )}
+      </confirm-dialog>
     `;
   }
 }
