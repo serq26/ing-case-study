@@ -1,11 +1,11 @@
 import { localized, msg } from '@lit/localize';
 import { LitElement, html, css } from 'lit';
-import globalStyles from '../styles/shared-style';
+import sharedStyles from '../styles/shared-style';
 
 class NavigationMenu extends LitElement {
   static get styles() {
     return [
-      globalStyles,
+      sharedStyles,
       css`
         nav {
           display: flex;
@@ -60,7 +60,7 @@ class NavigationMenu extends LitElement {
           <span>ING</span>
         </div>
         <div class="menu">
-          <a href="/">
+          <a href="/employees">
             <img
               src="/src/assets/icons/employees.svg"
               alt="Employees"

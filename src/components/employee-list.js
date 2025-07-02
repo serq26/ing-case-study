@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { Router } from '@vaadin/router';
 import { employeeStore } from '../store/employee-store.js';
 import { localized, msg } from '@lit/localize';
-import globalStyles from '../styles/shared-style.js';
+import sharedStyles from '../styles/shared-style.js';
 
 class EmployeeList extends LitElement {
   static properties = {
@@ -26,7 +26,7 @@ class EmployeeList extends LitElement {
 
   static get styles() {
     return [
-      globalStyles,
+      sharedStyles,
       css`
         h2{
           color: var(--ing-primary);
@@ -106,7 +106,7 @@ class EmployeeList extends LitElement {
 
   render() {
     return html`
-      <div class="container">
+      <div class="container-lg">
         <div>
           <div class="flex-row-between">
             <h2>${msg('Employee List')}</h2>

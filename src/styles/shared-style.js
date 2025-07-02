@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-const globalStyles = css`
+const sharedStyles = css`
   :root {
     --ing-primary: #ff6600;
     --ing-secondary: #091c5a;
@@ -62,12 +62,20 @@ const globalStyles = css`
     color: var(--text-primary);
   }
 
-  .container {
+  .container-lg {
     display: flex;
     max-width: var(--lg-breakpoint);
     margin: 0 auto;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .container-md {
+    display: flex;
+    max-width: var(--md-breakpoint);
+    margin: 0 auto;
+    justify-content: center;
+    flex-direction: column;
   }
 
   .flex-row {
@@ -93,7 +101,7 @@ const globalStyles = css`
 `;
 
 const styleSheet = new CSSStyleSheet();
-styleSheet.replaceSync(globalStyles.cssText);
+styleSheet.replaceSync(sharedStyles.cssText);
 document.adoptedStyleSheets = [styleSheet];
 
-export default globalStyles;
+export default sharedStyles;

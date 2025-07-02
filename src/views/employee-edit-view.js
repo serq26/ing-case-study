@@ -1,29 +1,55 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, css } from 'lit';
 import { employeeStore } from '../store/employee-store';
 import '../components/employee-form';
+import { updateWhenLocaleChanges, msg } from '@lit/localize';
+import sharedStyles from '../styles/shared-style';
 
-class EmployeeEditView extends LitElement {  
+class EmployeeEditView extends LitElement {
   static properties = {
     employee: { type: Object },
   };
 
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+          padding: 16px;
+        }
+        h2 {
+          font-weight: 600;
+          color: var(--ing-primary);
+          font-size: 32px;
+        }
+      `,
+    ];
+  }
+
   constructor() {
     super();
+    updateWhenLocaleChanges(this);
     this.employee = null;
   }
 
   firstUpdated() {
     const id = parseInt(this.location.params.id);
-    this.employee = employeeStore.employees.find(emp => emp.id === id);
+    this.employee = employeeStore.employees.find((emp) => emp.id === id);
   }
 
   render() {
     if (!this.employee) {
       return html`<p>Kayıt bulunamadı.</p>`;
     }
+    const fullName = this.employee.firstName + ' ' + this.employee.lastName;
 
     return html`
-      <employee-form .employee="${this.employee}"></employee-form>
+      <div class="container-md">
+        <div>
+          <h2>${msg(html`Edit Employee: <span style="color:black">${fullName}</span>`)}</h2>
+        </div>
+        <employee-form .employee="${this.employee}"></employee-form>
+      </div>
     `;
   }
 }

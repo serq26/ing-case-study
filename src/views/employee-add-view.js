@@ -1,10 +1,39 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, css } from 'lit';
+import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import '../components/employee-form';
+import sharedStyles from '../styles/shared-style';
 
 class EmployeeAddView extends LitElement {
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+          padding: 16px;
+        }
+        h2 {
+          font-weight: 600;
+          color: var(--ing-primary);
+          font-size: 32px;
+        }
+      `,
+    ];
+  }
+
+  constructor() {
+    super();
+    updateWhenLocaleChanges(this);
+  }
+
   render() {
     return html`
-      <employee-form></employee-form>
+      <div class="container-md">
+        <div>
+          <h2>${msg('Add New Employee')}</h2>
+        </div>
+        <employee-form></employee-form>
+      </div>
     `;
   }
 }
