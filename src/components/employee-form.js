@@ -218,17 +218,14 @@ class EmployeeForm extends LitElement {
         </label>
         <button type="submit">${msg('Save')}</button>
       </form>
-
-      ${this.employee
-        ? html`<button
-            type="button"
-            title="Turn Back"
-            class="turnBack-btn"
-            @click=${() => Router.go('/employees')}
-          >
-            ${msg('Cancel')}
-          </button>`
-        : ''}
+      <button
+        type="button"
+        title="Turn Back"
+        class="turnBack-btn"
+        @click=${() => Router.go('/employees')}
+      >
+        ${msg('Cancel')}
+      </button>       
     `;
   }
 }
