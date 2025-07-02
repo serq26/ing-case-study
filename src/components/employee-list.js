@@ -61,6 +61,15 @@ class EmployeeList extends LitElement {
             background-color: #ba1818;
           }
         }
+        .table-action-button {
+          border: none;
+          outline: none;
+          background-color: transparent;
+          transition: all .2s ease;
+          &:hover {
+            filter: brightness(0.5);
+          }
+        }
         .pagination {
           display: flex;
           align-items: center;
@@ -134,7 +143,6 @@ class EmployeeList extends LitElement {
     const pages = [];
 
     if (total <= maxVisible + 2) {
-      // Küçük sayfalar için tümünü göster
       for (let i = 1; i <= total; i++) pages.push(i);
       return pages;
     }
@@ -304,12 +312,26 @@ class EmployeeList extends LitElement {
                 <td>${emp.position}</td>
                 <td>
                   <button
+                    class="table-action-button"
                     @click="${() => Router.go(`/edit-employee/${emp.id}`)}"
                   >
-                    Güncelle
+                    <img
+                      src="/src/assets/icons/edit.svg"
+                      alt="Edit"
+                      height="20"
+                      width="20"
+                    />
                   </button>
-                  <button @click="${() => this.deleteEmployee(emp.id)}">
-                    Sil
+                  <button
+                    class="table-action-button"
+                    @click="${() => this.deleteEmployee(emp.id)}"
+                  >
+                    <img
+                      src="/src/assets/icons/delete.svg"
+                      alt="Delete"
+                      height="20"
+                      width="20"
+                    />
                   </button>
                 </td>
               </tr>
@@ -345,202 +367,6 @@ class EmployeeList extends LitElement {
       </ul>
     `;
   }
-
-  // renderPagination() {
-  //   const totalPages = Math.ceil(
-  //     this.filteredEmployees.length / this.employeesPerPage
-  //   );
-
-  //   return html`
-  //     <div class="pagination">
-  //       <button
-  //         class="page-button ${this.currentPage === 1 ? 'page-button-passive' : ''}"
-  //         @click="${() => (this.currentPage = this.currentPage - 1)}"
-  //       >
-  //         <img src="/src/assets/icons/left.svg" alt="Prev" height="24" width="24" />
-  //       </button>
-  //       ${Array.from(
-  //         { length: totalPages },
-  //         (_, i) =>
-  //           html`
-  //             <button
-  //               class="page-number ${this.currentPage === i + 1
-  //                 ? 'page-number-active'
-  //                 : ''}"
-  //               ?disabled="${this.currentPage === i + 1}"
-  //               @click="${() => (this.currentPage = i + 1)}"
-  //             >
-  //               ${i + 1}
-  //             </button>
-  //           `
-  //       )}
-  //           <button
-  //         class="page-button ${this.currentPage === totalPages ? 'page-button-passive' : ''}"
-  //         @click="${() => (this.currentPage = this.currentPage + 1)}"
-  //       >
-  //         <img src="/src/assets/icons/right.svg" alt="Next" height="24" width="24" />
-  //       </button>
-  //     </div>
-  //   `;
-  // }
-
-  // renderPagination() {
-  //   const totalPages = Math.ceil(
-  //     this.filteredEmployees.length / this.employeesPerPage
-  //   );
-
-  //   return html`
-  //     <div class="pagination-container">
-  //       <div class="per-page-selector">
-  //         <label for="per-page">Rows per page:</label>
-  //         <select id="per-page" @change="${this.handlePerPageChange}">
-  //           ${[5, 10, 20, 50, 100].map(
-  //             (size) => html`
-  //               <option
-  //                 value="${size}"
-  //                 ?selected="${this.employeesPerPage === size}"
-  //               >
-  //                 ${size}
-  //               </option>
-  //             `
-  //           )}
-  //         </select>
-  //       </div>
-
-  //       <div class="pagination">
-  //         <button
-  //           class="page-button ${this.currentPage === 1
-  //             ? 'page-button-passive'
-  //             : ''}"
-  //           @click="${() =>
-  //             (this.currentPage = Math.max(1, this.currentPage - 1))}"
-  //         >
-  //           <img
-  //             src="/src/assets/icons/left.svg"
-  //             alt="Prev"
-  //             height="24"
-  //             width="24"
-  //           />
-  //         </button>
-
-  //         ${Array.from(
-  //           { length: totalPages },
-  //           (_, i) =>
-  //             html`
-  //               <button
-  //                 class="page-number ${this.currentPage === i + 1
-  //                   ? 'page-number-active'
-  //                   : ''}"
-  //                 ?disabled="${this.currentPage === i + 1}"
-  //                 @click="${() => (this.currentPage = i + 1)}"
-  //               >
-  //                 ${i + 1}
-  //               </button>
-  //             `
-  //         )}
-
-  //         <button
-  //           class="page-button ${this.currentPage === totalPages
-  //             ? 'page-button-passive'
-  //             : ''}"
-  //           @click="${() =>
-  //             (this.currentPage = Math.min(totalPages, this.currentPage + 1))}"
-  //         >
-  //           <img
-  //             src="/src/assets/icons/right.svg"
-  //             alt="Next"
-  //             height="24"
-  //             width="24"
-  //           />
-  //         </button>
-  //       </div>
-  //     </div>
-  //   `;
-  // }
-
-  // renderPagination() {
-  //   const totalItems = this.filteredEmployees.length;
-  //   const totalPages = Math.ceil(totalItems / this.employeesPerPage);
-  //   const startItem = (this.currentPage - 1) * this.employeesPerPage + 1;
-  //   const endItem = Math.min(startItem + this.employeesPerPage - 1, totalItems);
-
-  //   return html`
-  //     <div class="pagination-container">
-  //       <div class="per-page-selector">
-  //         <label for="per-page">Rows per page:</label>
-  //         <select id="per-page" @change="${this.handlePerPageChange}">
-  //           ${[5, 10, 20, 50, 100].map(
-  //             (size) => html`
-  //               <option
-  //                 value="${size}"
-  //                 ?selected="${this.employeesPerPage === size}"
-  //               >
-  //                 ${size}
-  //               </option>
-  //             `
-  //           )}
-  //         </select>
-  //       </div>
-  //       <div class="pagination-buttons">
-  //         <button
-  //           class="page-button"
-  //           ?disabled="${this.currentPage === 1}"
-  //           @click="${() => (this.currentPage = 1)}"
-  //         >
-  //           <img
-  //             src="/src/assets/icons/double-left.svg"
-  //             alt="First Page"
-  //             height="24"
-  //             width="24"
-  //           />
-  //         </button>
-  //         <button
-  //           class="page-button"
-  //           ?disabled="${this.currentPage === 1}"
-  //           @click="${() =>
-  //             (this.currentPage = Math.max(1, this.currentPage - 1))}"
-  //         >
-  //           <img
-  //             src="/src/assets/icons/left.svg"
-  //             alt="Prev"
-  //             height="24"
-  //             width="24"
-  //           />
-  //         </button>
-  //         <div class="pagination-info">
-  //           ${totalItems > 0
-  //             ? html`${startItem}-${endItem} of ${totalItems} records`
-  //             : '0 records'}
-  //         </div>
-  //         <button
-  //           class="page-button"
-  //           ?disabled="${this.currentPage === totalPages || totalPages === 0}"
-  //           @click="${() =>
-  //             (this.currentPage = Math.min(totalPages, this.currentPage + 1))}"
-  //         >
-  //           <img
-  //             src="/src/assets/icons/right.svg"
-  //             alt="Next"
-  //             height="24"
-  //             width="24"
-  //           />
-  //         </button>
-  //         <button
-  //           class="page-button"
-  //           ?disabled="${this.currentPage === totalPages || totalPages === 0}"
-  //           @click="${() => (this.currentPage = totalPages)}"
-  //         >
-  //           <img
-  //             src="/src/assets/icons/double-right.svg"
-  //             alt="Last Page"
-  //             height="24"
-  //             width="24"
-  //           />
-  //         </button>
-  //       </div>
-  //     </div>
-  //   `;
-  // }
 
   renderPagination() {
     const totalItems = this.filteredEmployees.length;
