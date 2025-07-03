@@ -64,7 +64,8 @@ const sharedStyles = css`
   }
 
   table td {
-    color: var(--text-primary);
+    color: #000000;
+    font-weight: 500;
   }
 
   input[type='checkbox'] {

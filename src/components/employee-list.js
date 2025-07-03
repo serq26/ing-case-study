@@ -16,6 +16,9 @@ class EmployeeList extends LitElement {
     selectedEmployee: { type: Object },
     selectedEmployees: { type: Array },
     allSelected: { type: Boolean },
+    sortColumn: { type: String },
+    sortOrder: { type: String },
+    columns: { type: Array },
   };
 
   constructor() {
@@ -23,11 +26,23 @@ class EmployeeList extends LitElement {
     this.search = '';
     this.currentPage = 1;
     this.viewType = 'table';
-    this.employeesPerPage = 8;
+    this.employeesPerPage = 10;
     this.rowsPerPage = [5, 10, 20, 50, 100];
     this.selectedEmployee = null;
     this.selectedEmployees = [];
     this.allSelected = false;
+    this.sortColumn = null;
+    this.sortOrder = null;
+    this.columns = [
+      { key: 'firstName', label: msg('First Name') },
+      { key: 'lastName', label: msg('Last Name') },
+      { key: 'dateOfBirth', label: msg('Date of Birth') },
+      { key: 'dateOfEmployment', label: msg('Date of Employment') },
+      { key: 'phone', label: msg('Phone') },
+      { key: 'email', label: msg('Email') },
+      { key: 'department', label: msg('Department') },
+      { key: 'position', label: msg('Position') },
+    ];
   }
 
   static get styles() {
@@ -179,6 +194,33 @@ class EmployeeList extends LitElement {
           color: var(--ing-primary);
         }
 
+        table td.light {
+          color: #7c7c7c;
+          font-weight: 400;
+        }
+
+        th.sortable {
+          user-select: none;
+          white-space: nowrap;
+        }
+
+        th.sortable .sort-icon {
+          margin-left: 4px;
+          font-size: 14px;
+          color: #999;
+        }
+
+        th.sortable.active .sort-icon {
+          color: var(--ing-secondary);
+        }
+
+        .actions-cell {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          white-space: nowrap;
+        }
+
         @media screen and (max-width: 768px) {
           table,
           th,
@@ -194,11 +236,37 @@ class EmployeeList extends LitElement {
   }
 
   get filteredEmployees() {
-    return employeeStore.employees.filter((emp) =>
+    let filtered = employeeStore.employees.filter((emp) =>
       `${emp.firstName} ${emp.lastName}`
         .toLowerCase()
         .includes(this.search.toLowerCase())
     );
+
+    if (this.sortColumn && this.sortOrder) {
+      filtered = filtered.slice();
+      filtered.sort((a, b) => {
+        let valA = a[this.sortColumn];
+        let valB = b[this.sortColumn];
+
+        if (['dateOfBirth', 'dateOfEmployment'].includes(this.sortColumn)) {
+          const timeA = new Date(valA).getTime();
+          const timeB = new Date(valB).getTime();
+          return this.sortOrder === 'asc' ? timeA - timeB : timeB - timeA;
+        }
+
+        if (typeof valA === 'number' && typeof valB === 'number') {
+          return this.sortOrder === 'asc' ? valA - valB : valB - valA;
+        }
+
+        return this.sortOrder === 'asc'
+          ? String(valA).toLowerCase().localeCompare(String(valB).toLowerCase())
+          : String(valB)
+              .toLowerCase()
+              .localeCompare(String(valA).toLowerCase());
+      });
+    }
+
+    return filtered;
   }
 
   get paginatedEmployees() {
@@ -238,6 +306,24 @@ class EmployeeList extends LitElement {
     }
 
     return pages;
+  }
+
+  sortBy(column) {
+    if (this.sortColumn === column) {
+      if (this.sortOrder === 'asc') {
+        this.sortOrder = 'desc';
+      } else if (this.sortOrder === 'desc') {
+        this.sortOrder = null;
+        this.sortColumn = null;
+      } else {
+        this.sortOrder = 'asc';
+      }
+    } else {
+      this.sortColumn = column;
+      this.sortOrder = 'asc';
+    }
+    this.currentPage = 1;
+    this.requestUpdate();
   }
 
   deleteEmployee(id) {
@@ -302,7 +388,10 @@ class EmployeeList extends LitElement {
             <h2>${msg('Employee List')}</h2>
             <div class="flex-row">
               <div class="actions">
-                <button @click="${() => this.changeView('table')}" style="${this.viewType !== 'table' && 'opacity: 0.3'}">
+                <button
+                  @click="${() => this.changeView('table')}"
+                  style="${this.viewType !== 'table' && 'opacity: 0.3'}"
+                >
                   <img
                     src="/src/assets/icons/table.svg"
                     alt="Table"
@@ -310,7 +399,10 @@ class EmployeeList extends LitElement {
                     height="32"
                   />
                 </button>
-                <button @click="${() => this.changeView('list')}" style="${this.viewType !== 'list' && 'opacity: 0.3'}">
+                <button
+                  @click="${() => this.changeView('list')}"
+                  style="${this.viewType !== 'list' && 'opacity: 0.3'}"
+                >
                   <img
                     src="/src/assets/icons/list.svg"
                     alt="List"
@@ -385,14 +477,28 @@ class EmployeeList extends LitElement {
                   @change="${this.toggleSelectAll}"
                 />
               </th>
-              <th>${msg('First Name')}</th>
-              <th>${msg('Last Name')}</th>
-              <th>${msg('Date of Birth')}</th>
-              <th>${msg('Date of Employment')}</th>
-              <th>${msg('Phone')}</th>
-              <th>${msg('Email')}</th>
-              <th>${msg('Department')}</th>
-              <th>${msg('Position')}</th>
+              ${this.columns.map(
+                (col) => html`
+                  <th
+                    class="sortable ${this.sortColumn === col.key
+                      ? 'active'
+                      : ''}"
+                    @click=${() => this.sortBy(col.key)}
+                    title="${msg('Sort')}"
+                  >
+                    ${col.label}
+                    <span class="sort-icon">
+                      ${this.sortColumn === col.key
+                        ? this.sortOrder === 'asc'
+                          ? '▲'
+                          : this.sortOrder === 'desc'
+                          ? '▼'
+                          : '⇅'
+                        : '⇅'}
+                    </span>
+                  </th>
+                `
+              )}
               <th>${msg('Actions')}</th>
             </tr>
           </thead>
@@ -409,35 +515,37 @@ class EmployeeList extends LitElement {
                   </td>
                   <td>${emp.firstName}</td>
                   <td>${emp.lastName}</td>
-                  <td>${formatDate(emp.dateOfEmployment)}</td>
-                  <td>${formatDate(emp.dateOfBirth)}</td>
-                  <td>${emp.phone}</td>
-                  <td>${emp.email}</td>
-                  <td>${emp.department}</td>
-                  <td>${emp.position}</td>
+                  <td class="light">${formatDate(emp.dateOfBirth)}</td>
+                  <td class="light">${formatDate(emp.dateOfEmployment)}</td>
+                  <td class="light">${emp.phone}</td>
+                  <td class="light">${emp.email}</td>
+                  <td class="light">${emp.department}</td>
+                  <td class="light">${emp.position}</td>
                   <td>
-                    <button
-                      class="table-action-button"
-                      @click="${() => Router.go(`/edit-employee/${emp.id}`)}"
-                    >
-                      <img
-                        src="/src/assets/icons/edit.svg"
-                        alt="Edit"
-                        height="20"
-                        width="20"
-                      />
-                    </button>
-                    <button
-                      class="table-action-button"
-                      @click="${() => this.openModal(emp)}"
-                    >
-                      <img
-                        src="/src/assets/icons/delete.svg"
-                        alt="Delete"
-                        height="20"
-                        width="20"
-                      />
-                    </button>
+                    <div class="actions-cell">
+                      <button
+                        class="table-action-button"
+                        @click="${() => Router.go(`/edit-employee/${emp.id}`)}"
+                      >
+                        <img
+                          src="/src/assets/icons/edit.svg"
+                          alt="Edit"
+                          height="20"
+                          width="20"
+                        />
+                      </button>
+                      <button
+                        class="table-action-button"
+                        @click="${() => this.openModal(emp)}"
+                      >
+                        <img
+                          src="/src/assets/icons/delete.svg"
+                          alt="Delete"
+                          height="20"
+                          width="20"
+                        />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               `
@@ -604,7 +712,7 @@ class EmployeeList extends LitElement {
             />
           </button>
         </div>
-        <div class="per-page-selector" style="width: 200px">
+        <div class="per-page-selector">
           <label for="per-page"
             >${msg(
               str`${this.viewType === 'table' ? 'Rows' : 'Cards'} per page`
