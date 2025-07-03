@@ -39,7 +39,7 @@ class EmployeeEditPage extends LitElement {
 
   render() {
     if (!this.employee) {
-      return html`<p>Kayıt bulunamadı.</p>`;
+      return msg(html`<p>Record not found.</p>`);
     }
     const fullName = this.employee.firstName + ' ' + this.employee.lastName;
 

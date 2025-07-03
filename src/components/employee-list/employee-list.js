@@ -152,13 +152,13 @@ class EmployeeList extends LitElement {
   handleDelete(event) {
     if (this.selectedEmployees.length > 0) {
       store.dispatch(deleteMultipleEmployees(this.selectedEmployees));
-      notyf.success(this.selectedEmployees.length + ' records deleted!');
+      notyf.success(msg(str`${this.selectedEmployees.length} records deleted!`));
       this.selectedEmployees = [];
       this.allSelected = false;
     } else if (this.selectedEmployee) {
       const employee = event.detail;
       store.dispatch(deleteEmployee(employee.id));
-      notyf.success(`${employee.firstName} ${employee.lastName} deleted!`);
+      notyf.success(msg(str`${employee.firstName} ${employee.lastName} deleted!`));
     } else {
       console.error('No employee to delete');
     }
@@ -287,6 +287,27 @@ class EmployeeList extends LitElement {
   }
 
   renderTable() {
+      const headerTemplates = this.columns.map(
+        (col) => html`
+          <th
+            class="sortable ${this.sortColumn === col.key ? 'active' : ''}"
+            @click=${() => this.sortBy(col.key)}
+            title="${msg('Sort')}"
+          >
+            ${msg(col.label)}
+            <span class="sort-icon">
+              ${this.sortColumn === col.key
+                ? this.sortOrder === 'asc'
+                  ? '▲'
+                  : this.sortOrder === 'desc'
+                  ? '▼'
+                  : '⇅'
+                : '⇅'}
+            </span>
+          </th>
+        `
+      );
+
     return html`
       <div class="flex-row-between table-actions">
         <div>
@@ -328,28 +349,7 @@ class EmployeeList extends LitElement {
                   @change="${this.toggleSelectAll}"
                 />
               </th>
-              ${this.columns.map(
-                (col) => html`
-                  <th
-                    class="sortable ${this.sortColumn === col.key
-                      ? 'active'
-                      : ''}"
-                    @click=${() => this.sortBy(col.key)}
-                    title="${msg('Sort')}"
-                  >
-                    ${col.label}
-                    <span class="sort-icon">
-                      ${this.sortColumn === col.key
-                        ? this.sortOrder === 'asc'
-                          ? '▲'
-                          : this.sortOrder === 'desc'
-                          ? '▼'
-                          : '⇅'
-                        : '⇅'}
-                    </span>
-                  </th>
-                `
-              )}
+              ${headerTemplates}
               <th>${msg('Actions')}</th>
             </tr>
           </thead>

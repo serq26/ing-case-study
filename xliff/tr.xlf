@@ -78,6 +78,156 @@
   <source>Edit Employee: <x id="0" equiv-text="&lt;span style=&quot;color:black&quot;&gt;${fullName}&lt;/span&gt;"/></source>
   <target>Çalışan Güncelleme: <x id="0" equiv-text="&lt;span style=&quot;color:black&quot;&gt;${fullName}&lt;/span&gt;"/></target>
 </trans-unit>
+<trans-unit id="s268ecd1cef45a9a8">
+  <source>Are you sure?</source>
+  <target>Emin misin?</target>
+</trans-unit>
+<trans-unit id="s2714784162ec459d">
+  <source>Proceed</source>
+  <target>İlerle</target>
+</trans-unit>
+<trans-unit id="sffa721bb6aa3128d">
+  <source>Search...</source>
+  <target>Ara...</target>
+</trans-unit>
+<trans-unit id="sdb06f504800b7167">
+  <source><x id="0" equiv-text="${this.selectedEmployees.length}"/> records will be deleted</source>
+  <target><x id="0" equiv-text="${this.selectedEmployees.length}"/> kayıt silinecek</target>
+</trans-unit>
+<trans-unit id="h3b19e2a2831925e3">
+  <source>Selected employee record of
+                <x id="0" equiv-text="&lt;strong&gt;"/>"<x id="1" equiv-text="${this.selectedEmployee?.firstName}&#10;                  ${this.selectedEmployee?.lastName}"/>"<x id="2" equiv-text="&lt;/strong&gt;"/>
+                will be deleted</source>
+  <target><x id="0" equiv-text="&lt;strong&gt;"/>"<x id="1" equiv-text="${this.selectedEmployee?.firstName}&#10;                  ${this.selectedEmployee?.lastName}"/>"<x id="2" equiv-text="&lt;/strong&gt;"/> silinecek</target>
+</trans-unit>
+<trans-unit id="sc27877746b461373">
+  <source><x id="0" equiv-text="${this.selectedEmployees.length}"/> rows selected</source>
+  <target><x id="0" equiv-text="${this.selectedEmployees.length}"/> satır seçildi</target>
+</trans-unit>
+<trans-unit id="sdc673e73b5c13aea">
+  <source>Delete</source>
+  <target>Sil</target>
+</trans-unit>
+<trans-unit id="s8a7bee24f1eeaff1">
+  <source>Sort</source>
+  <target>Sırala</target>
+</trans-unit>
+<trans-unit id="sbbea6b8ad961f527">
+  <source>Total Records</source>
+  <target>Toplam Kayıt</target>
+</trans-unit>
+<trans-unit id="s7dc552fda8bc803d">
+  <source><x id="0" equiv-text="${this.viewType === 'table' ? 'Rows' : 'Cards'}"/> per page</source>
+  <target>Sayfa başına <x id="0" equiv-text="${this.viewType === 'table' ? 'Satır' : 'Kart'}"/></target>
+</trans-unit>
+<trans-unit id="sf71f9578ca2ddb9a">
+  <source>Department is required</source>
+  <target>Bölüm zorunlu alan</target>
+</trans-unit>
+<trans-unit id="s35911e54e5c305df">
+  <source>Position is required</source>
+  <target>Pozisyon zorunlu alan</target>
+</trans-unit>
+<trans-unit id="sa04e5c14a9134fc4">
+  <source>Please enter another email address. Another user is registered with this email address.</source>
+  <target>Lütfen başka bir e-posta adresi girin. Başka bir kullanıcı bu e-posta adresiyle kayıtlı.</target>
+</trans-unit>
+<trans-unit id="s4334525318da4056">
+  <source>Please enter another phone number. Another user is registered with this phone number.</source>
+  <target>Lütfen başka bir telefon numarası girin. Başka bir kullanıcı bu telefon numarasıyla kayıtlı.</target>
+</trans-unit>
+<trans-unit id="s91c63c6231457c16">
+  <source>Employee updated successfully!</source>
+  <target>Çalışan başarıyla güncellendi!</target>
+</trans-unit>
+<trans-unit id="se7b8908ee5caa708">
+  <source>Failed to update employee.</source>
+  <target>Çalışan güncellenemedi.</target>
+</trans-unit>
+<trans-unit id="s055557a4050ab26f">
+  <source>Employee added successfully!</source>
+  <target>Çalışan başarıyla eklendi!</target>
+</trans-unit>
+<trans-unit id="s2b3c83144d75fd7c">
+  <source>Failed to add employee.</source>
+  <target>Çalışan eklenemedi.</target>
+</trans-unit>
+<trans-unit id="sbf38b62ad692ac35">
+  <source>Invalid phone number</source>
+  <target>Geçersiz telefon numarası</target>
+</trans-unit>
+<trans-unit id="sfa22ac1436f238cd">
+  <source>Turn Back</source>
+  <target>Geri Dön</target>
+</trans-unit>
+<trans-unit id="s86ffdcafef2b979d">
+  <source>Employee record of "<x id="0" equiv-text="${emp.firstName} ${emp.lastName}"/>" will be updated</source>
+  <target>Çalışan "<x id="0" equiv-text="${emp.firstName} ${emp.lastName}"/>" güncellenecek</target>
+</trans-unit>
+<trans-unit id="ha656fe384f9c475e">
+  <source><x id="0" equiv-text="&lt;p&gt;"/>Record not found.<x id="1" equiv-text="&lt;/p&gt;"/></source>
+  <target><x id="0" equiv-text="&lt;p&gt;"/>Kayıt bulunamadı.<x id="1" equiv-text="&lt;/p&gt;"/></target>
+</trans-unit>
+<trans-unit id="s108118119b43064b">
+  <source><x id="0" equiv-text="${fieldName}"/> must be between 2 and 50 characters</source>
+  <target><x id="0" equiv-text="${fieldName}"/> 2 ile 50 karakter arasında olmalıdır</target>
+</trans-unit>
+<trans-unit id="s403810446efeea25">
+  <source>Only alphabetic characters, space, ' and - are allowed</source>
+  <target>Sadece alfabetik karakterlere, boşluğa, ' ve - izin verilir</target>
+</trans-unit>
+<trans-unit id="s227958cdd1d2f84d">
+  <source>Date of Employment is required</source>
+  <target>İşe Başlama Tarihi zorunlu alan</target>
+</trans-unit>
+<trans-unit id="se0baa9b7fb0768e4">
+  <source>Invalid date</source>
+  <target>Geçersiz tarih</target>
+</trans-unit>
+<trans-unit id="s2021e6a92b59b1de">
+  <source>Date of Employment must be after 1900</source>
+  <target>İşe Başlama tarihi 1900'den sonra olmalıdır</target>
+</trans-unit>
+<trans-unit id="sbee512f1b03d3cff">
+  <source>Date of Employment cannot be in the future</source>
+  <target>İşe Başlama tarihi gelecekte olamaz</target>
+</trans-unit>
+<trans-unit id="scf226d2c20f172c2">
+  <source>Phone is required</source>
+  <target>Telefon zorunlu alan</target>
+</trans-unit>
+<trans-unit id="s76f3ff0ef9b3009a">
+  <source>Date of Birth is required</source>
+  <target>Doğum Tarihi zorunlu alan</target>
+</trans-unit>
+<trans-unit id="sdf7043eb187bf3b3">
+  <source>Date of Birth must be after 1900</source>
+  <target>Doğum tarihi 1900'den sonra olmalıdır</target>
+</trans-unit>
+<trans-unit id="sedfd550b74345138">
+  <source>Date of Birth cannot be in the future</source>
+  <target>Doğum tarihi gelecekte olamaz</target>
+</trans-unit>
+<trans-unit id="s6048203e003909d7">
+  <source>Must be at least 18 years old</source>
+  <target>En az 18 yaşında olmalı</target>
+</trans-unit>
+<trans-unit id="sf07904be22a6165a">
+  <source>Email is required</source>
+  <target>E-posta zorunlu alan</target>
+</trans-unit>
+<trans-unit id="s6faf53a851ae1ef8">
+  <source>Invalid email address</source>
+  <target>Geçersiz e-posta adresi</target>
+</trans-unit>
+<trans-unit id="s89d55fcfb0a9b23d">
+  <source><x id="0" equiv-text="${this.selectedEmployees.length}"/> records deleted!</source>
+  <target><x id="0" equiv-text="${this.selectedEmployees.length}"/> kayıt silindi!</target>
+</trans-unit>
+<trans-unit id="s81b9c8c8d07d84e1">
+  <source><x id="0" equiv-text="${employee.firstName} ${employee.lastName}"/> deleted!</source>
+  <target><x id="0" equiv-text="${employee.firstName} ${employee.lastName}"/> silindi!</target>
+</trans-unit>
 </body>
 </file>
 </xliff>

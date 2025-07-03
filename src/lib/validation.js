@@ -17,14 +17,14 @@ export function isValidName(name, fieldName) {
 
   if (name.length < 2 || name.length > 50) {
     isValid = false;
-    errorMessage = `${fieldName} must be between 2 and 50 characters`;
+    errorMessage = msg(str`${fieldName} must be between 2 and 50 characters`);
     return { isValid, errorMessage };
   }
 
   const characterControl = /^[A-Za-zÇçĞğİıÖöŞşÜü\s'-]+$/.test(name);
   if (!characterControl) {
     isValid = false;
-    errorMessage = "Only alphabetic characters, space, ' and - are allowed";
+    errorMessage = msg("Only alphabetic characters, space, ' and - are allowed");
     return { isValid, errorMessage };
   }
 
@@ -42,24 +42,24 @@ export function isValidBirthDate(dateString) {
   let age = ageDiff;
 
   if (isNullOrEmpty(dateString)) {
-    return { isValid: false, errorMessage: 'Date of Birth is required' };
+    return { isValid: false, errorMessage:  msg('Date of Birth is required') };
   }
 
   if (isNaN(timestamp)) {
-    return { isValid: false, errorMessage: 'Invalid date' };
+    return { isValid: false, errorMessage:  msg('Invalid date') };
   }
 
   if (timestamp < minDate) {
     return {
       isValid: false,
-      errorMessage: 'Date of Birth must be after 1900',
+      errorMessage:  msg('Date of Birth must be after 1900'),
     };
   }
 
   if (date > today) {
     return {
       isValid: false,
-      errorMessage: 'Date of Birth cannot be in the future',
+      errorMessage:  msg('Date of Birth cannot be in the future'),
     };
   }
 
@@ -68,7 +68,7 @@ export function isValidBirthDate(dateString) {
   }
 
   if (age < 18) {
-    return { isValid: false, errorMessage: 'Must be at least 18 years old' };
+    return { isValid: false, errorMessage:  msg('Must be at least 18 years old') };
   }
 
   return { isValid: true, errorMessage: null };
@@ -82,24 +82,24 @@ export function isValidDateOfEmployment(dateString) {
   const minDate = new Date('1900-01-01').getTime();
 
   if (isNullOrEmpty(dateString)) {
-    return { isValid: false, errorMessage: 'Date of Employment is required' };
+    return { isValid: false, errorMessage: msg('Date of Employment is required') };
   }
 
   if (isNaN(timestamp)) {
-    return { isValid: false, errorMessage: 'Invalid date' };
+    return { isValid: false, errorMessage: msg('Invalid date') };
   }
 
   if (timestamp < minDate) {
     return {
       isValid: false,
-      errorMessage: 'Date of Employment must be after 1900',
+      errorMessage: msg('Date of Employment must be after 1900'),
     };
   }
 
   if (date > today) {
     return {
       isValid: false,
-      errorMessage: 'Date of Employment cannot be in the future',
+      errorMessage: msg('Date of Employment cannot be in the future'),
     };
   }
 
@@ -111,13 +111,13 @@ export function isValidPhone(phone) {
   let errorMessage = null;
 
   if (isNullOrEmpty(phone)) {
-    return { isValid: false, errorMessage: 'Phone is required' };
+    return { isValid: false, errorMessage: msg('Phone is required') };
   }
 
   const phoneControl = /^\(\d{3}\) \d{3} \d{2} \d{2}$/.test(phone);
   if (!phoneControl) {
     isValid = false;
-    errorMessage = 'Invalid phone number1';
+    errorMessage = msg('Invalid phone number');
     return { isValid, errorMessage };
   }
 
@@ -129,13 +129,13 @@ export function isValidEmail(email) {
   let errorMessage = null;
 
   if (isNullOrEmpty(email)) {
-    return { isValid: false, errorMessage: 'Email is required' };
+    return { isValid: false, errorMessage: msg('Email is required') };
   }
 
   const emailControl = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   if (!emailControl) {
     isValid = false;
-    errorMessage = 'Invalid email address';
+    errorMessage =  msg('Invalid email address');
     return { isValid, errorMessage };
   }
 
