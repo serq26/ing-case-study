@@ -228,6 +228,7 @@ class EmployeeList extends LitElement {
                     alt="Table"
                     width="32"
                     height="32"
+                    style="transform: scale(1.5)"
                   />
                 </button>
                 <button
