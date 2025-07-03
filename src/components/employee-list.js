@@ -4,6 +4,7 @@ import { employeeStore } from '../store/employee-store.js';
 import { localized, msg, str } from '@lit/localize';
 import sharedStyles from '../styles/shared-style.js';
 import '../components/confirm-dialog.js';
+import { formatDate } from '../lib/utils.js';
 
 class EmployeeList extends LitElement {
   static properties = {
@@ -408,8 +409,8 @@ class EmployeeList extends LitElement {
                   </td>
                   <td>${emp.firstName}</td>
                   <td>${emp.lastName}</td>
-                  <td>${emp.dateOfEmployment}</td>
-                  <td>${emp.dateOfBirth}</td>
+                  <td>${formatDate(emp.dateOfEmployment)}</td>
+                  <td>${formatDate(emp.dateOfBirth)}</td>
                   <td>${emp.phone}</td>
                   <td>${emp.email}</td>
                   <td>${emp.department}</td>
@@ -474,11 +475,11 @@ class EmployeeList extends LitElement {
               </div>
               <div class="flex-card-content-between">
                 <strong>${msg('Date of Birth')}:</strong>
-                <span>${emp.dateOfBirth}</span>
+                <span>${formatDate(emp.dateOfBirth)}</span>
               </div>
               <div class="flex-card-content-between">
                 <strong>${msg('Date of Employment')}:</strong>
-                <span>${emp.dateOfEmployment}</span>
+                <span>${formatDate(emp.dateOfEmployment)}</span>
               </div>
               <div class="flex-card-content-between">
                 <strong>${msg('Department')}:</strong>
