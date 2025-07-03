@@ -63,11 +63,11 @@ class EmployeeForm extends LitElement {
       case 'department':
         return !isNullOrEmpty(value)
           ? { isValid: true, errorMessage: null }
-          : { isValid: false, errorMessage: 'Department is required' };
+          : { isValid: false, errorMessage: msg('Department is required') };
       case 'position':
         return !isNullOrEmpty(value)
           ? { isValid: true, errorMessage: null }
-          : { isValid: false, errorMessage: 'Position is required' };
+          : { isValid: false, errorMessage: msg('Position is required') };
       default:
         return { isValid: true, errorMessage: null };
     }
@@ -108,29 +108,50 @@ class EmployeeForm extends LitElement {
     this.addEventListener('confirm', () => this.handleConfirm());
   }
 
+  emailAndPhoneControl(email, phone, controlType, currentId = null) {
+    const employees = store.getState().employees;
+
+    const isEmailTaken = employees.some((item) => {
+      if (controlType === 'edit' && item.id === currentId) return false;
+      return item.email === email;
+    });
+
+    if (isEmailTaken) {
+      notyf.error(
+        msg(
+          'Please enter another email address. Another user is registered with this email address.'
+        )
+      );
+      return false;
+    }
+
+    const isPhoneTaken = employees.some((item) => {
+      if (controlType === 'edit' && item.id === currentId) return false;
+      return item.phone === phone;
+    });
+
+    if (isPhoneTaken) {
+      notyf.error(
+        msg(
+          'Please enter another phone number. Another user is registered with this phone number.'
+        )
+      );
+      return false;
+    }
+
+    return true;
+  }
+
   handleConfirm() {
     const data = this.pendingFormData;
     data.id = this.employee.id;
-    store.dispatch(updateEmployee(data));
+    const result = store.dispatch(updateEmployee(data));
+    if (result.payload) {
+      notyf.success(msg('Employee updated successfully!'));
+    } else {
+      notyf.error(msg('Failed to update employee.'));
+    }
     Router.go('/employees');
-  }
-
-  emailAndPhoneControl(email, phone) {
-    const employees = store.getState().employees;
-    
-    employees.map((item) => {
-      if(item.email === email) {
-        notyf.error(msg("Please enter another email address. Another user is registered with this email address."));
-        return false;
-      }
-
-      if(item.phone === phone) {
-        notyf.error(msg("Please enter another phone number. Another user is registered with this phone number."));
-        return false;
-      }
-    });
-
-    return true;
   }
 
   handleSubmit(e) {
@@ -138,7 +159,15 @@ class EmployeeForm extends LitElement {
 
     if (!this.validateForm()) return;
 
-    if(this.emailAndPhoneControl(this.employee.email, this.employee.phone)) return;
+    if (
+      !this.emailAndPhoneControl(
+        this.employee.email,
+        this.employee.phone,
+        this.employee.id ? 'edit' : 'add',
+        this.employee.id
+      )
+    )
+      return;
 
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
@@ -148,7 +177,12 @@ class EmployeeForm extends LitElement {
       this.shadowRoot.querySelector('confirm-dialog').isOpen = true;
     } else {
       data.id = Date.now();
-      store.dispatch(addEmployee(data));
+      const result = store.dispatch(addEmployee(data));
+      if (result.payload) {
+        notyf.success(msg('Employee added successfully!'));
+      } else {
+        notyf.error(msg('Failed to add employee.'));
+      }
       Router.go('/employees');
     }
   }
@@ -169,7 +203,7 @@ class EmployeeForm extends LitElement {
       delete newErrors.phone;
       this.errors = newErrors;
     } else {
-      this.errors = { ...this.errors, phone: 'Invalid phone number2' };
+      this.errors = { ...this.errors, phone: msg('Invalid phone number') };
     }
   }
 
@@ -306,7 +340,7 @@ class EmployeeForm extends LitElement {
       </form>
       <button
         type="button"
-        title="Turn Back"
+        title="${msg('Turn Back')}"
         class="cancel turn-back"
         @click=${() => Router.go('/employees')}
       >
