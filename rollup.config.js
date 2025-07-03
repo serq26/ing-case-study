@@ -8,6 +8,8 @@ import summary from 'rollup-plugin-summary';
 import { terser } from 'rollup-plugin-terser';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
+import { rollupPluginHTML } from '@web/rollup-plugin-html';
+import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
 
 export default {
   input: 'my-element.js',
@@ -21,8 +23,19 @@ export default {
     }
   },
   plugins: [
-    replace({ preventAssignment: false, 'Reflect.decorate': 'undefined' }),
+    rollupPluginHTML({
+      publicPath: '/',
+      input: 'index.html',
+    }),
+    replace({
+      preventAssignment: false,
+      'Reflect.decorate': 'undefined',
+      'process.env.NODE_ENV': JSON.stringify(
+        process.env.NODE_ENV || 'production'
+      ),
+    }),
     resolve(),
+    dynamicImportVars(),
     /**
      * This minification setup serves the static site generation.
      * For bundling and minification, check the README.md file.

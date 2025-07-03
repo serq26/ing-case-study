@@ -4,7 +4,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-import {legacyPlugin} from '@web/dev-server-legacy';
+import { legacyPlugin } from '@web/dev-server-legacy';
+import { rollupAdapter } from '@web/dev-server-rollup';
+import replace from '@rollup/plugin-replace';
 
 const mode = process.env.MODE || 'dev';
 if (!['dev', 'prod'].includes(mode)) {
@@ -14,7 +16,7 @@ if (!['dev', 'prod'].includes(mode)) {
 export default {
   appIndex: 'index.html',
   watch: true,
-  nodeResolve: {exportConditions: mode === 'dev' ? ['development'] : []},
+  nodeResolve: { exportConditions: mode === 'dev' ? ['development'] : [] },
   preserveSymlinks: true,
   plugins: [
     legacyPlugin({
@@ -22,5 +24,13 @@ export default {
         webcomponents: false,
       },
     }),
+    rollupAdapter(
+      replace({
+        'process.env.NODE_ENV': JSON.stringify(
+          mode === 'dev' ? 'development' : 'production'
+        ),
+        preventAssignment: true,
+      })
+    ),
   ],
 };
