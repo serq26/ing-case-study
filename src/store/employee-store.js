@@ -1,5 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
-import fakeData from "../data/data";
+import fakeData from '../data/data';
 
 const defaultState = {
   employees: fakeData,
@@ -34,21 +34,24 @@ const employeesSlice = createSlice({
       return newState;
     },
     updateEmployee: (state, action) => {
-      const employee = state.find((emp) => emp.id === action.payload.id);
-      Object.assign(employee, action.payload);
-      saveData({ employees: state });
+      const index = state.findIndex((emp) => emp.id === action.payload.id);
+      if (index === -1) {
+        console.error(`Employee not found. Payload:`, action.payload);
+      } else {
+        state[index] = action.payload;
+        saveData({ employees: state });
+        return state;
+      }
     },
     deleteEmployee: (state, action) => {
-      saveData({ employees: state.filter((emp) => emp.id !== action.payload) });
+      const newState = state.filter((emp) => emp.id !== action.payload);
+      saveData({ employees: newState });
+      return newState;
     },
     deleteMultipleEmployees: (state, action) => {
-      const idsToDelete = action.payload;
-      for (let i = state.length - 1; i >= 0; i--) {
-        if (idsToDelete.includes(state[i].id)) {
-          state.splice(i, 1);
-        }
-      }
-      saveData({ employees: state });
+      const newState = state.filter((emp) => !action.payload.includes(emp.id));
+      saveData({ employees: newState });
+      return newState;
     },
   },
 });

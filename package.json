@@ -47,7 +47,8 @@
     "@lit/localize": "^0.12.2",
     "@reduxjs/toolkit": "^2.8.2",
     "@vaadin/router": "^2.0.0",
-    "lit": "^3.2.0"
+    "lit": "^3.2.0",
+    "notyf": "^3.10.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.1",

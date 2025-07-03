@@ -54,7 +54,7 @@ const sharedStyles = css`
 
   table th,
   table td {
-    padding: 20px;
+    padding: 20px 10px;
     border: none;
     text-align: center;
   }
@@ -67,6 +67,11 @@ const sharedStyles = css`
   table td {
     color: #000000;
     font-weight: 500;
+    max-width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 15px;
   }
 
   input[type='checkbox'] {

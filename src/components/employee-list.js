@@ -7,7 +7,7 @@ import store, {
 import { localized, msg, str } from '@lit/localize';
 import sharedStyles from '../styles/shared-style.js';
 import '../components/confirm-dialog.js';
-import { formatDate } from '../lib/utils.js';
+import { formatDate, notyf } from '../lib/utils.js';
 
 class EmployeeList extends LitElement {
   static properties = {
@@ -340,21 +340,24 @@ class EmployeeList extends LitElement {
   }
 
   handleDelete(event) {
-    if (this.checkedEmployeeIds.length > 0) {
-      store.dispatch(deleteMultipleEmployees(this.checkedEmployeeIds));
-      this.checkedEmployeeIds = [];
-      //TODO: toastify => this.checkedEmployeeIds.length + ' records deleted!'
-    } else if (this.employeeToDelete) {
+    if (this.selectedEmployees.length > 0) {
+      store.dispatch(deleteMultipleEmployees(this.selectedEmployees));
+      notyf.success(this.selectedEmployees.length + ' records deleted!');
+      this.selectedEmployees = [];
+      this.allSelected = false;
+    } else if (this.selectedEmployee) {
       const employee = event.detail;
       store.dispatch(deleteEmployee(employee.id));
-      const fullName = `${employee.firstName} ${employee.lastName}`;
-      alert(fullName); //
-      //TODO: toastify => fullName + ' deleted!'
+      notyf.success(`${employee.firstName} ${employee.lastName} deleted!`);
     } else {
       console.error('No employee to delete');
     }
-    if (this.currentPage > this._pages.length) {
-      this.currentPage = this._pages.length;
+    
+    const totalPages = Math.ceil(
+      this.filteredEmployees.length / this.employeesPerPage
+    );
+    if (this.currentPage > totalPages) {
+      this.currentPage = totalPages;
     }
   }
 
@@ -432,7 +435,9 @@ class EmployeeList extends LitElement {
           </div>
           ${this.viewType === 'list'
             ? html`
-                <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom: 10px">
+                <div
+                  style="display:flex;align-items:center;justify-content:flex-end;margin-bottom: 10px"
+                >
                   <input
                     class="search-box"
                     type="text"
