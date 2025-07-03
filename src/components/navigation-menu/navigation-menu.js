@@ -27,7 +27,7 @@ class NavigationMenu extends LitElement {
         </a>
 
         <div class="menu">
-          <a href="/employees">
+          <a data-test-id="employees-link" href="/employees">
             <img
               src="/src/assets/icons/employees.svg"
               alt="Employees"
@@ -36,7 +36,7 @@ class NavigationMenu extends LitElement {
             />
             <span>${msg('Employees')}</span>
           </a>
-          <a href="/add-employee">
+          <a data-test-id="add-new-link" href="/add-employee">
             <img
               src="/src/assets/icons/plus.svg"
               alt="Add New"

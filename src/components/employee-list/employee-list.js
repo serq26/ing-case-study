@@ -219,6 +219,7 @@ class EmployeeList extends LitElement {
             <div class="flex-row">
               <div class="actions">
                 <button
+                  data-test-id="table-view"
                   @click="${() => this.changeView('table')}"
                   style="${this.viewType !== 'table' && 'opacity: 0.3'}"
                 >
@@ -230,6 +231,7 @@ class EmployeeList extends LitElement {
                   />
                 </button>
                 <button
+                  data-test-id="list-view"
                   @click="${() => this.changeView('list')}"
                   style="${this.viewType !== 'list' && 'opacity: 0.3'}"
                 >
@@ -249,6 +251,7 @@ class EmployeeList extends LitElement {
                   style="display:flex;align-items:center;justify-content:flex-end;margin-bottom: 10px"
                 >
                   <input
+                    data-test-id="search-box"
                     class="search-box"
                     type="text"
                     name="search"
@@ -305,6 +308,7 @@ class EmployeeList extends LitElement {
             : ''}
         </div>
         <input
+          data-test-id="search-box"
           class="search-box"
           type="text"
           name="search"
@@ -313,7 +317,7 @@ class EmployeeList extends LitElement {
         />
       </div>
       <div class="table-container">
-        <table>
+        <table data-test-id="table">
           <thead>
             <tr>
               <th>
@@ -354,6 +358,7 @@ class EmployeeList extends LitElement {
                 <tr>
                   <td>
                     <input
+                      data-test-id="select-all"
                       type="checkbox"
                       .checked="${this.selectedEmployees.includes(emp.id)}"
                       @change="${(e) => this.toggleSelection(e, emp.id)}"
@@ -404,7 +409,7 @@ class EmployeeList extends LitElement {
 
   renderList() {
     return html`
-      <ul class="card-list">
+      <ul data-test-id="card-list" class="card-list">
         ${this.paginatedEmployees.map(
           (emp) => html`
             <li class="card">

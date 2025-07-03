@@ -24,17 +24,17 @@ class ConfirmDialog extends LitElement {
 
   render() {
     return html`
-      <div class="modal" style="display: ${this.isOpen ? 'block' : 'none'};">
+      <div data-test-id="modal" class="modal" style="display: ${this.isOpen ? 'block' : 'none'};">
         <div class="modal-content">
-          <span class="close" @click=${this.closeModal}>&times;</span>
+          <span data-test-id="close-icon" class="close" @click=${this.closeModal}>&times;</span>
           <h2>${msg('Are you sure?')}</h2>
           <p>
             <slot></slot>
           </p>
-          <button type="submit" @click=${this.confirm} tabindex="1">
+          <button data-test-id="proceed-button" type="submit" @click=${this.confirm} tabindex="1">
             ${msg('Proceed')}
           </button>
-          <button class="cancel" @click=${this.closeModal} tabindex="2">
+          <button data-test-id="cancel-button" class="cancel" @click=${this.closeModal} tabindex="2">
             ${msg('Cancel')}
           </button>
         </div>
