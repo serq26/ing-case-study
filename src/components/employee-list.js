@@ -1,6 +1,9 @@
 import { LitElement, html, css } from 'lit';
 import { Router } from '@vaadin/router';
-import { employeeStore } from '../store/employee-store.js';
+import store, {
+  deleteEmployee,
+  deleteMultipleEmployees,
+} from '../store/employee-store.js';
 import { localized, msg, str } from '@lit/localize';
 import sharedStyles from '../styles/shared-style.js';
 import '../components/confirm-dialog.js';
@@ -67,6 +70,7 @@ class EmployeeList extends LitElement {
           border-radius: 10px;
           border: 2px solid #f7f7f7;
           font-weight: 600;
+          transition: all 0.4s ease-in-out;
           &:focus {
             border-color: var(--ing-primary);
           }
@@ -130,6 +134,10 @@ class EmployeeList extends LitElement {
         .page-ellipsis {
           padding: 4px 8px;
           color: #666;
+        }
+
+        .total-records {
+          width: 200px;
         }
 
         .card-list {
@@ -230,17 +238,22 @@ class EmployeeList extends LitElement {
           .pagination-container {
             flex-direction: column;
           }
+          .total-records {
+            display: none;
+          }
         }
       `,
     ];
   }
 
   get filteredEmployees() {
-    let filtered = employeeStore.employees.filter((emp) =>
-      `${emp.firstName} ${emp.lastName}`
-        .toLowerCase()
-        .includes(this.search.toLowerCase())
-    );
+    let filtered = store
+      .getState()
+      .employees.filter((emp) =>
+        `${emp.firstName} ${emp.lastName}`
+          .toLowerCase()
+          .includes(this.search.toLowerCase())
+      );
 
     if (this.sortColumn && this.sortOrder) {
       filtered = filtered.slice();
@@ -326,10 +339,22 @@ class EmployeeList extends LitElement {
     this.requestUpdate();
   }
 
-  deleteEmployee(id) {
-    if (confirm('silmek istedğine emin misin?')) {
-      employeeStore.remove(id);
-      this.requestUpdate();
+  handleDelete(event) {
+    if (this.checkedEmployeeIds.length > 0) {
+      store.dispatch(deleteMultipleEmployees(this.checkedEmployeeIds));
+      this.checkedEmployeeIds = [];
+      //TODO: toastify => this.checkedEmployeeIds.length + ' records deleted!'
+    } else if (this.employeeToDelete) {
+      const employee = event.detail;
+      store.dispatch(deleteEmployee(employee.id));
+      const fullName = `${employee.firstName} ${employee.lastName}`;
+      alert(fullName); //
+      //TODO: toastify => fullName + ' deleted!'
+    } else {
+      console.error('No employee to delete');
+    }
+    if (this.currentPage > this._pages.length) {
+      this.currentPage = this._pages.length;
     }
   }
 
@@ -361,14 +386,6 @@ class EmployeeList extends LitElement {
       this.selectedEmployees = this.paginatedEmployees.map((emp) => emp.id);
     } else {
       this.selectedEmployees = [];
-    }
-  }
-
-  deleteSelected() {
-    if (confirm('Seçilen çalışanları silmek istiyor musunuz?')) {
-      this.selectedEmployees.forEach((id) => employeeStore.remove(id));
-      this.selectedEmployees = [];
-      this.requestUpdate();
     }
   }
 
@@ -413,6 +430,19 @@ class EmployeeList extends LitElement {
               </div>
             </div>
           </div>
+          ${this.viewType === 'list'
+            ? html`
+                <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom: 10px">
+                  <input
+                    class="search-box"
+                    type="text"
+                    name="search"
+                    placeholder="${msg('Search...')}"
+                    @input="${(e) => (this.search = e.target.value)}"
+                  />
+                </div>
+              `
+            : null}
           ${this.viewType === 'table' ? this.renderTable() : this.renderList()}
           ${this.renderPagination()}
         </div>
@@ -420,6 +450,7 @@ class EmployeeList extends LitElement {
       <confirm-dialog
         .isOpen=${!!this.selectedEmployee}
         .employee=${this.selectedEmployee}
+        @confirm=${this.handleDelete}
         @close=${this.handleModalClosed}
       >
         ${this.selectedEmployees.length > 0
@@ -641,7 +672,9 @@ class EmployeeList extends LitElement {
 
     return html`
       <div class="pagination-container">
-        <div style="width: 200px"></div>
+        <div class="total-records">
+          ${msg('Total Records')}: <strong>${totalItems}</strong>
+        </div>
         <div class="pagination">
           <button
             class="page-button"

@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit';
-import { employeeStore } from '../store/employee-store.js';
 import { msg, updateWhenLocaleChanges, str } from '@lit/localize';
 import sharedStyles from '../styles/shared-style';
 import { Router } from '@vaadin/router';
@@ -13,6 +12,7 @@ import {
 } from '../lib/validation.js';
 import { formatPhone } from '../lib/utils.js';
 import '../components/confirm-dialog';
+import store, { addEmployee, updateEmployee } from '../store/employee-store.js';
 
 class EmployeeForm extends LitElement {
   static properties = {
@@ -189,7 +189,7 @@ class EmployeeForm extends LitElement {
   handleConfirm() {
     const data = this._pendingFormData;
     data.id = this.employee.id;
-    employeeStore.update(data);
+    store.dispatch(updateEmployee(data));
     Router.go('/employees');
   }
 
@@ -206,7 +206,7 @@ class EmployeeForm extends LitElement {
       this.shadowRoot.querySelector('confirm-dialog').isOpen = true;
     } else {
       data.id = Date.now();
-      employeeStore.add(data);
+      store.dispatch(addEmployee(data));
       Router.go('/employees');
     }
   }

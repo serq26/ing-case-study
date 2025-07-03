@@ -11,6 +11,7 @@ const sharedStyles = css`
     --xs-breakpoint: 600px;
     --md-breakpoint: 1024px;
     --lg-breakpoint: 1440px;
+    --xl-breakpoint: 1560px;
   }
 
   body {
@@ -71,6 +72,14 @@ const sharedStyles = css`
   input[type='checkbox'] {
     width: 20px;
     height: 20px;
+  }
+
+  .container-xl {
+    display: flex;
+    max-width: var(--xl-breakpoint);
+    margin: 0 auto;
+    justify-content: center;
+    flex-direction: column;
   }
 
   .container-lg {

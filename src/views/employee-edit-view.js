@@ -1,8 +1,8 @@
 import { LitElement, html, css } from 'lit';
-import { employeeStore } from '../store/employee-store';
 import { updateWhenLocaleChanges, msg } from '@lit/localize';
 import sharedStyles from '../styles/shared-style';
 import '../components/employee-form';
+import store from '../store/employee-store';
 
 class EmployeeEditView extends LitElement {
   static properties = {
@@ -34,7 +34,7 @@ class EmployeeEditView extends LitElement {
 
   firstUpdated() {
     const id = parseInt(this.location.params.id);
-    this.employee = employeeStore.employees.find((emp) => emp.id === id);
+    this.employee = store.getState().employees.find((emp) => emp.id === id);
   }
 
   render() {
