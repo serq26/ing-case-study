@@ -4,7 +4,7 @@ import sharedStyles from '../styles/shared-style';
 import '../components/employee-form';
 import store from '../store/employee-store';
 
-class EmployeeEditView extends LitElement {
+class EmployeeEditPage extends LitElement {
   static properties = {
     employee: { type: Object },
   };
@@ -58,4 +58,4 @@ class EmployeeEditView extends LitElement {
   }
 }
 
-customElements.define('employee-edit-view', EmployeeEditView);
+customElements.define('employee-edit-page', EmployeeEditPage);

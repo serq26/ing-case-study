@@ -3,7 +3,7 @@ import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import '../components/employee-form';
 import sharedStyles from '../styles/shared-style';
 
-class EmployeeAddView extends LitElement {
+class EmployeeAddPage extends LitElement {
   static get styles() {
     return [
       sharedStyles,
@@ -38,4 +38,4 @@ class EmployeeAddView extends LitElement {
   }
 }
 
-customElements.define('employee-add-view', EmployeeAddView);
+customElements.define('employee-add-page', EmployeeAddPage);

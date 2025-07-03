@@ -1,7 +1,7 @@
 import './router/router.js';
-import './views/employee-list-view.js';
-import './views/employee-add-view.js';
-import './views/employee-edit-view.js';
+import './pages/employee-list-page.js';
+import './pages/employee-add-page.js';
+import './pages/employee-edit-page.js';
 import './components/navigation-menu.js';
 import './components/language-picker.js';
 import { setLocale } from './localization.js';

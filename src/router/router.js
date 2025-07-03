@@ -5,9 +5,9 @@ const router = new Router(outlet);
 
 router.setRoutes([
   { path: '/', component: 'employee-list-view' },
-  { path: '/employees', component: 'employee-list-view' },
-  { path: '/add-employee', component: 'employee-add-view' },
-  { path: '/edit-employee/:id', component: 'employee-edit-view' },
+  { path: '/employees', component: 'employee-list-page' },
+  { path: '/add-employee', component: 'employee-add-page' },
+  { path: '/edit-employee/:id', component: 'employee-edit-page' },
 ]);
 
 export default router;
