@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { msg, updateWhenLocaleChanges } from '@lit/localize';
-import '../components/employee-form';
+import '../components/employee-form/employee-form';
 import sharedStyles from '../styles/shared-style';
 
 class EmployeeAddPage extends LitElement {

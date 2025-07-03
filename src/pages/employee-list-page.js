@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit';
-import '../components/employee-list';
+import '../components/employee-list/employee-list';
 
 class EmployeeListPage extends LitElement {
   render() {
