@@ -10,7 +10,7 @@ import {
   isValidName,
   isValidPhone,
 } from '../../lib/validation.js';
-import { formatPhone } from '../../lib/utils.js';
+import { formatPhone, notyf } from '../../lib/utils.js';
 import '../confirm-dialog/confirm-dialog.js';
 import store, {
   addEmployee,
@@ -22,7 +22,7 @@ class EmployeeForm extends LitElement {
   static properties = {
     employee: { type: Object },
     errors: { type: Object },
-    _pendingFormData: { type: Object },
+    pendingFormData: { type: Object },
   };
 
   constructor() {
@@ -39,7 +39,7 @@ class EmployeeForm extends LitElement {
       position: '',
     };
     this.errors = {};
-    this._pendingFormData = null;
+    this.pendingFormData = null;
   }
 
   static get styles() {
@@ -109,10 +109,28 @@ class EmployeeForm extends LitElement {
   }
 
   handleConfirm() {
-    const data = this._pendingFormData;
+    const data = this.pendingFormData;
     data.id = this.employee.id;
     store.dispatch(updateEmployee(data));
     Router.go('/employees');
+  }
+
+  emailAndPhoneControl(email, phone) {
+    const employees = store.getState().employees;
+    
+    employees.map((item) => {
+      if(item.email === email) {
+        notyf.error(msg("Please enter another email address. Another user is registered with this email address."));
+        return false;
+      }
+
+      if(item.phone === phone) {
+        notyf.error(msg("Please enter another phone number. Another user is registered with this phone number."));
+        return false;
+      }
+    });
+
+    return true;
   }
 
   handleSubmit(e) {
@@ -120,9 +138,11 @@ class EmployeeForm extends LitElement {
 
     if (!this.validateForm()) return;
 
+    if(this.emailAndPhoneControl(this.employee.email, this.employee.phone)) return;
+
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
-    this._pendingFormData = data;
+    this.pendingFormData = data;
 
     if (this.employee.id) {
       this.shadowRoot.querySelector('confirm-dialog').isOpen = true;
