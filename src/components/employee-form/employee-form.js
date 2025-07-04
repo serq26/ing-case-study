@@ -298,7 +298,7 @@ class EmployeeForm extends LitElement {
             @blur="${this.handleInputBlur}"
           >
             <option value="" ?selected="${!emp.department}">
-              Select Department
+              ${msg("Select Department")}
             </option>
             <option
               value="Analytics"
@@ -321,7 +321,7 @@ class EmployeeForm extends LitElement {
             @blur="${this.handleInputBlur}"
           >
             <option value="" ?selected="${!emp.position}">
-              Select Position
+              ${msg("Select Position")}
             </option>
             <option value="Junior" ?selected="${emp.position === 'Junior'}">
               Junior

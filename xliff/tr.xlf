@@ -228,6 +228,14 @@
   <source><x id="0" equiv-text="${employee.firstName} ${employee.lastName}"/> deleted!</source>
   <target><x id="0" equiv-text="${employee.firstName} ${employee.lastName}"/> silindi!</target>
 </trans-unit>
+<trans-unit id="s3ced410ef8850869">
+  <source>Select Department</source>
+  <target>Bölüm Seçiniz</target>
+</trans-unit>
+<trans-unit id="sd3b242173c2c4284">
+  <source>Select Position</source>
+  <target>Pozisyon Seçiniz</target>
+</trans-unit>
 </body>
 </file>
 </xliff>
