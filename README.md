@@ -21,8 +21,8 @@ The application supports listing, adding, editing, and deleting employee records
 ## Installation
 
 ````bash
-git clone https://github.com/serhatcolak/serhatcolak-ing-study-case.git
-cd serhatcolak-ing-study-case
+git clone https://github.com/serq26/ing-case-study.git
+cd ing-case-study
 npm install
 ````
 
