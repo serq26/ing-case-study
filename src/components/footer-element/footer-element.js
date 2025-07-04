@@ -1,4 +1,5 @@
 import { LitElement, html } from 'lit';
+import { localized, msg } from '@lit/localize';
 import { footerStyles } from './footer-element-style';
 
 export class FooterElement extends LitElement {
@@ -7,7 +8,7 @@ export class FooterElement extends LitElement {
   render() {
     return html`
       <div class="footer-content">
-        <p>&copy; ${new Date().getFullYear()} All rights reserved.</p>
+        <p>&copy; ${new Date().getFullYear()} ${msg("All rights reserved.")}</p>
         <p>
           ING Case Study
         </p>
@@ -16,4 +17,4 @@ export class FooterElement extends LitElement {
   }
 }
 
-customElements.define('footer-element', FooterElement);
+customElements.define('footer-element', localized()(FooterElement));

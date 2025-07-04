@@ -236,6 +236,14 @@
   <source>Select Position</source>
   <target>Pozisyon Seçiniz</target>
 </trans-unit>
+<trans-unit id="s2888976f54dcceb7">
+  <source>Page Not Found</source>
+  <target>Sayfa Bulunamadı</target>
+</trans-unit>
+<trans-unit id="s30c26ef5c375aab1">
+  <source>All rights reserved.</source>
+  <target>Tüm hakları saklıdır.</target>
+</trans-unit>
 </body>
 </file>
 </xliff>
