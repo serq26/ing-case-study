@@ -8,6 +8,7 @@ router.setRoutes([
   { path: '/employees', component: 'employee-list-page' },
   { path: '/add-employee', component: 'employee-add-page' },
   { path: '/edit-employee/:id', component: 'employee-edit-page' },
+  { path: '(.*)', component: 'not-found-page' },
 ]);
 
 export default router;
