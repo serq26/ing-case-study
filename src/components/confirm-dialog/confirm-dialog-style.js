@@ -24,19 +24,19 @@ export const confirmDialogStyles = css`
     border-radius: 8px;
   }
   .modal-content .close {
-    color: var(--ing-orange);
+    color: var(--ing-primary);
     float: right;
     font-size: 40px;
     margin-top: -8px;
   }
   .modal-content .close:hover {
-    color: var(--ing-dark-blue);
+    color: var(--ing-secondary);
   }
   .modal-content h2 {
     margin-top: 0;
     font-size: 28px;
     font-weight: normal;
-    color: var(--ing-orange);
+    color: var(--ing-primary);
   }
   .modal-content p {
     margin: 32px 0;

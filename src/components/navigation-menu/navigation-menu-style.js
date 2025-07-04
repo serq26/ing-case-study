@@ -12,11 +12,11 @@ export const navigationMenuStyles = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 8px;
   }
   .logo span {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 18px;
   }
   .menu {
     display: flex;
