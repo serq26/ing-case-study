@@ -344,6 +344,7 @@ class EmployeeList extends LitElement {
             <tr>
               <th>
                 <input
+                  data-test-id="select-all-checkbox"
                   type="checkbox"
                   .checked="${this.allSelected}"
                   @change="${this.toggleSelectAll}"
@@ -356,7 +357,7 @@ class EmployeeList extends LitElement {
           <tbody>
             ${this.paginatedEmployees.map(
               (emp) => html`
-                <tr>
+                <tr data-test-id="employee-row-${emp.id}">
                   <td>
                     <input
                       data-test-id="select-all"
@@ -376,6 +377,7 @@ class EmployeeList extends LitElement {
                   <td>
                     <div class="actions-cell">
                       <button
+                        data-test-id="update-action-button-${emp.id}"
                         class="table-action-button"
                         @click="${() => Router.go(`/edit-employee/${emp.id}`)}"
                       >
@@ -387,6 +389,7 @@ class EmployeeList extends LitElement {
                         />
                       </button>
                       <button
+                        data-test-id="delete-action-button"
                         class="table-action-button"
                         @click="${() => this.openModal(emp)}"
                       >
@@ -462,6 +465,7 @@ class EmployeeList extends LitElement {
                   />
                 </button>
                 <button
+                  data-test-id="delete-action-button"
                   class="table-action-button"
                   @click="${() => this.openModal(emp)}"
                 >

@@ -222,7 +222,7 @@ class EmployeeForm extends LitElement {
             @blur="${this.handleInputBlur}"
           />
           ${this.errors.firstName &&
-          html`<div class="error">${this.errors.firstName}</div>`}
+          html`<div data-test-id="firstName-error" class="error">${this.errors.firstName}</div>`}
         </label>
         <label>
           ${msg('Last Name')}
@@ -234,7 +234,7 @@ class EmployeeForm extends LitElement {
             @blur="${this.handleInputBlur}"
           />
           ${this.errors.lastName &&
-          html`<div class="error">${this.errors.lastName}</div>`}
+          html`<div data-test-id="lastName-error" class="error">${this.errors.lastName}</div>`}
         </label>
         <label>
           ${msg('Date of Birth')}
@@ -248,7 +248,7 @@ class EmployeeForm extends LitElement {
             max=${new Date().toISOString().split('T')[0]}
           />
           ${this.errors.dateOfBirth &&
-          html`<div class="error">${this.errors.dateOfBirth}</div>`}
+          html`<div data-test-id="dateOfBirth-error" class="error">${this.errors.dateOfBirth}</div>`}
         </label>
         <label>
           ${msg('Date of Employment')}
@@ -262,7 +262,7 @@ class EmployeeForm extends LitElement {
             max=${new Date().toISOString().split('T')[0]}
           />
           ${this.errors.dateOfEmployment &&
-          html`<div class="error">${this.errors.dateOfEmployment}</div>`}
+          html`<div data-test-id="dateOfEmployment-error" class="error">${this.errors.dateOfEmployment}</div>`}
         </label>
         <label>
           ${msg('Phone')}
@@ -276,7 +276,7 @@ class EmployeeForm extends LitElement {
             @keyup="${this.handlePhoneKeyup}"
           />
           ${this.errors.phone &&
-          html`<div class="error">${this.errors.phone}</div>`}
+          html`<div data-test-id="phone-error" class="error">${this.errors.phone}</div>`}
         </label>
         <label>
           ${msg('Email')}
@@ -288,7 +288,7 @@ class EmployeeForm extends LitElement {
             @blur="${this.handleInputBlur}"
           />
           ${this.errors.email &&
-          html`<div class="error">${this.errors.email}</div>`}
+          html`<div data-test-id="email-error" class="error">${this.errors.email}</div>`}
         </label>
         <label>
           ${msg('Department')}
@@ -311,7 +311,7 @@ class EmployeeForm extends LitElement {
             </option>
           </select>
           ${this.errors.department &&
-          html`<div class="error">${this.errors.department}</div>`}
+          html`<div data-test-id="department-error" class="error">${this.errors.department}</div>`}
         </label>
         <label>
           ${msg('Position')}
@@ -334,9 +334,9 @@ class EmployeeForm extends LitElement {
             </option>
           </select>
           ${this.errors.position &&
-          html`<div class="error">${this.errors.position}</div>`}
+          html`<div data-test-id="position-error" class="error">${this.errors.position}</div>`}
         </label>
-        <button type="submit">${msg('Save')}</button>
+        <button data-test-id="form-submit-button" type="submit">${msg('Save')}</button>
       </form>
       <button
         type="button"
