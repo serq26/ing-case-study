@@ -213,7 +213,7 @@ class EmployeeList extends LitElement {
   render() {
     return html`
       <div class="container-lg">
-        <div style="margin:20px 0">
+        <div>
           <div class="flex-row-between">
             <h2>${msg('Employee List')}</h2>
             <div class="flex-row">

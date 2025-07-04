@@ -179,16 +179,17 @@ export const employeeListStyles = css`
   }
 
   @media screen and (max-width: 768px) {
-    table,
-    th,
-    td {
-      font-size: 12px;
-    }
     .pagination-container {
       flex-direction: column;
     }
     .total-records {
       display: none;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .container-lg {
+      padding: 20px;
     }
   }
 `;

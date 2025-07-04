@@ -65,6 +65,9 @@ export const employeeFormStyles = css`
     }
   }
   @media (max-width: 768px) {
+    form {
+      padding: 16px;
+    }
     form button {
       width: 100%;
     }

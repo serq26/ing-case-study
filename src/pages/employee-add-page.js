@@ -17,6 +17,11 @@ class EmployeeAddPage extends LitElement {
           color: var(--ing-primary);
           font-size: 32px;
         }
+        @media (max-width: 768px) {
+          h2 {
+            font-size: 26px;
+          }
+        }
       `,
     ];
   }
